@@ -3,8 +3,8 @@ CREATE DATABASE sistema_pqrs;
 USE sistema_pqrs;
 
 -- base de datos by Samuel Bolaños
-
 -- creación de las tablas de la base de datos
+
 -- tabla usuario
 CREATE TABLE usuario (
     Idusuario INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -35,7 +35,4 @@ CREATE TABLE Solicitud (
     FOREIGN KEY (IdUsuario) REFERENCES Usuario(Idusuario) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud)
 );
-
-
-
 
