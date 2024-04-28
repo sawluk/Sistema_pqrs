@@ -36,3 +36,25 @@ CREATE TABLE Solicitud (
     FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud)
 );
 
+-- Procedimiento de almacenado tabla usuario
+DELIMITER //
+-- Creamos el procedimiento almacenado para registrar un usuario
+CREATE PROCEDURE RegistrarUsuario(
+    -- Definimos los parámetros de entrada del procedimiento
+    IN p_cedula VARCHAR(20),
+    IN p_nombre_usuario VARCHAR(50),
+    IN p_correo VARCHAR(50),
+    IN p_contrasena VARCHAR(50),
+    IN p_rol ENUM('Admin', 'Usuario')
+)
+BEGIN
+    -- Iniciamos el bloque del procedimiento almacenado
+    -- Insertamos un nuevo registro en la tabla usuario con los parámetros proporcionados
+    INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol)
+    VALUES (p_cedula, p_nombre_usuario, p_correo, p_contrasena, p_rol);
+-- Finalizamos el bloque del procedimiento almacenado
+END //
+
+DELIMITER ;
+
+DELETE FROM usuario WHERE idusuario IN (5);

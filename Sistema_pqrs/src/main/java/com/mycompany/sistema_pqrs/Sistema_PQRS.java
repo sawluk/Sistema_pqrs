@@ -6,6 +6,9 @@ package com.mycompany.sistema_pqrs;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -30,4 +33,148 @@ public class Sistema_PQRS {
         }
         return conn;
     }
+    /**
+     * metodo que Registra al usuario en el sistema
+     * @param cedula
+     * @param nombre
+     * @param correo
+     * @param contrasena
+     * @param rol 
+     */
+    
+    public void registrarUsuario(String cedula, String nombre, String correo, String contrasena, String rol) {
+    Connection conn = null;
+    PreparedStatement stmt = null;
+
+    try {
+        conn = establecerConexion();
+
+        if (conn != null) { // Verificar si hay conexión a la base de datos
+            // Definir la consulta SQL para insertar un nuevo usuario
+            String sql = "INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) VALUES (?, ?, ?, ?, ?)";
+
+            // Preparar la declaración
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cedula);
+            stmt.setString(2, nombre);
+            stmt.setString(3, correo);
+            stmt.setString(4, contrasena);
+            stmt.setString(5, rol);
+
+            // Ejecutar la consulta
+            stmt.executeUpdate();
+
+            System.out.println("Usuario registrado exitosamente.");
+        } else {
+            System.err.println("No se pudo establecer la conexión con la base de datos.");
+        }
+    } catch (SQLException e) {
+        System.err.println("Error al registrar usuario: " + e.getMessage());
+    } finally {
+        // Cerrar la conexión y liberar recursos
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al cerrar la conexión: " + e.getMessage());
+        }
+    }
+}
+    
+    public boolean validarUsuario(String nombreUsuario, String contrasena) {
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    boolean usuarioValido = false;
+
+    try {
+        conn = establecerConexion();
+
+        // Consulta para verificar si el usuario está registrado
+        String consultaUsuario = "SELECT * FROM Usuario WHERE Nombre_usuario = ? AND Contrasena = ?";
+        stmt = conn.prepareStatement(consultaUsuario);
+        stmt.setString(1, nombreUsuario);
+        stmt.setString(2, contrasena);
+        rs = stmt.executeQuery();
+
+        // Verificar si se encontró al usuario
+        usuarioValido = rs.next();
+    } catch (SQLException e) {
+        // Manejar cualquier error de SQL
+        e.printStackTrace();
+    } finally {
+        // Cerrar la conexión y liberar recursos
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    return usuarioValido;
+}
+    
+    public String obtenerRolUsuario(String nombreUsuario, String contrasena) {
+    // Validar si el usuario está registrado
+    if (validarUsuario(nombreUsuario, contrasena)) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String rol = null;
+
+        try {
+            conn = establecerConexion();
+
+            // Consulta para obtener el rol del usuario
+            String consultaRol = "SELECT Rol FROM Usuario WHERE Nombre_usuario = ?";
+            stmt = conn.prepareStatement(consultaRol);
+            stmt.setString(1, nombreUsuario);
+            rs = stmt.executeQuery();
+
+            // Obtener el rol del usuario
+            if (rs.next()) {
+                rol = rs.getString("Rol");
+            } else {
+                rol = "Rol no encontrado";
+            }
+        } catch (SQLException e) {
+            // Manejar cualquier error de SQL
+            e.printStackTrace();
+            rol = "Error de SQL: " + e.getMessage();
+        } finally {
+            // Cerrar la conexión y liberar recursos
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return rol;
+    } else {
+        return "Usuario no encontrado";
+    }
+}
+
+
 }

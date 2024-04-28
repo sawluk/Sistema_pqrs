@@ -38,8 +38,26 @@ public class SvRegistrar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            try {
+    // Recibir los parámetros del formulario
+    String cedula = request.getParameter("cedula");
+    String nombre = request.getParameter("nombre");
+    String correo = request.getParameter("correo");
+    String contrasena = request.getParameter("contrasena");
+    String rol = request.getParameter("rol");
+    
+    // Llamar al método para registrar el usuario en la base de datos
+    conectar.registrarUsuario(cedula, nombre, correo, contrasena, rol);
+    
+    // Redirigir a una página de éxito o mostrar un mensaje de éxito
+    response.sendRedirect("index.jsp");
+} catch (Exception e) { // Manejar cualquier excepción
+    e.printStackTrace(); // Esto imprimirá la traza de la excepción en la consola del servidor
+    // Puedes manejar el error de otra manera, como mostrar un mensaje de error en la página
+    response.getWriter().println("Error al agregar el usuario. Por favor, inténtelo de nuevo."); // Esto mostrará un mensaje de error en la página
+}
+
         
-        conectar.establecerConexion();
 
     }
 
