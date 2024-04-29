@@ -57,4 +57,3 @@ END //
 
 DELIMITER ;
 
-DELETE FROM usuario WHERE idusuario IN (5);

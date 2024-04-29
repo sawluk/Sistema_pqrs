@@ -29,11 +29,11 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nombreUsuario = request.getParameter("nombre");
+        String cedula = request.getParameter("cedula");
         String contrasena = request.getParameter("contrasenia");
 
         // Obtener el rol del usuario
-        String rol = conectar.obtenerRolUsuario(nombreUsuario, contrasena);
+        String rol = conectar.obtenerRolUsuario(cedula, contrasena);
 
 // Redirigir al usuario según su rol
 if (rol.equals("Admin")) {
@@ -45,6 +45,7 @@ if (rol.equals("Admin")) {
 } else {
     // Mostrar un mensaje de error o manejar de otra manera según corresponda
     response.getWriter().println(rol);
+    response.sendRedirect("index.jsp");
 }
 
     }

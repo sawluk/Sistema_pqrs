@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hola administrador!</h1>
+        <h1>Bienvenido, administrador</h1>
     </body>
 </html>
