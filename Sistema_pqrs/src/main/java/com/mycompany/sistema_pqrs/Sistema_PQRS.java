@@ -16,6 +16,27 @@ import java.sql.SQLException;
  */
 public class Sistema_PQRS {
     
+    public class NombreYRolUsuario {
+    private String nombre;
+    private String rol;
+    
+    public NombreYRolUsuario() {
+    }
+    
+    public NombreYRolUsuario(String nombre, String rol) {
+        this.nombre = nombre;
+        this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+}
+    
     public Connection establecerConexion() {
         String url = "jdbc:mysql://localhost:3306/sistema_pqrs?serverTimeZone=utc";
         String user = "root"; // Nombre de usuario correcto
@@ -87,9 +108,9 @@ public class Sistema_PQRS {
 }
     /**
      * 
-     * @param 
+     * @param cedula
      * @param contrasena
-     * @return 
+     * @return boolean usuarioValido
      */
     
     public boolean validarUsuario(String cedula, String contrasena) {
@@ -139,16 +160,16 @@ public class Sistema_PQRS {
 
     /**
      * 
-     * @param nombreUsuario
+     * @param cedula
      * @param contrasena
      * @return 
      */
     
-    public String obtenerRolUsuario(String cedula, String contrasena) {
+    public NombreYRolUsuario obtenerInformacionUsuario(String cedula, String contrasena) {
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    String rol = null;
+    NombreYRolUsuario informacionUsuario = null;
 
     // Validar si el usuario está registrado en la base de datos
     if (validarUsuario(cedula, contrasena)) {
@@ -156,25 +177,27 @@ public class Sistema_PQRS {
         conn = establecerConexion();
         try {
             // Si hay conexión a la base de datos, se ejecuta la consulta
-            if(conn != null){
-                // Consulta para obtener el rol del usuario
-                String consultaRol = "SELECT Rol FROM Usuario WHERE Cedula = ?";
-                stmt = conn.prepareStatement(consultaRol);
+            if (conn != null) {
+                // Consulta para obtener el nombre y el rol del usuario
+                String consultaUsuario = "SELECT Nombre_usuario, Rol FROM Usuario WHERE Cedula = ?";
+                stmt = conn.prepareStatement(consultaUsuario);
                 stmt.setString(1, cedula);
                 rs = stmt.executeQuery();
 
-                // Obtener el rol del usuario
+                // Obtener el nombre y el rol del usuario
                 if (rs.next()) {
-                    rol = rs.getString("Rol");
+                    String nombre = rs.getString("Nombre_usuario");
+                    String rol = rs.getString("Rol");
+                    informacionUsuario = new NombreYRolUsuario(nombre, rol);
                 } else {
-                    rol = "Rol no encontrado";
-                } 
+                    // En caso de que no se encuentre el usuario, se asigna un valor por defecto
+                    informacionUsuario = new NombreYRolUsuario("Usuario no encontrado", "Rol no encontrado");
+                }
             }
-            
         } catch (SQLException e) {
             // Manejar cualquier error de SQL
             e.printStackTrace();
-            rol = "Error de SQL: " + e.getMessage();
+            informacionUsuario = new NombreYRolUsuario("Error de SQL", "Error de SQL");
         } finally {
             // Cerrar la conexión y liberar recursos
             try {
@@ -191,11 +214,13 @@ public class Sistema_PQRS {
                 e.printStackTrace();
             }
         }
-
-        return rol;
     } else { // El usuario no está registrado en la base de datos
-        return "Usuario no encontrado";
+        // En caso de que no se encuentre el usuario, se asigna un valor por defecto
+        informacionUsuario = new NombreYRolUsuario("Usuario no encontrado", "Rol no encontrado");
     }
+
+    return informacionUsuario;
 }
+
 
 }

@@ -135,13 +135,19 @@
         <a href="#">Acerca de</a>
         <a href="#">Contacto</a>
         <div class="navbar-right">
-            <a href="#">Iniciar Sesión</a>
-            <a href="#">Registrarse</a>
+            <a href="index.jsp">Cerrar sesion</a>
         </div>
     </div>
-
+    <% String nombreUsuario = (String) session.getAttribute("nombreu"); %>
+    
+    <%-- Verificar si el nombre de usuario está presente en la sesión --%>
+    <% if (nombreUsuario != null && !nombreUsuario.isEmpty()) { %>
+        <p>¡Hola, <%= nombreUsuario %>!</p>
+    <% } else { %>
+        <p>No se ha encontrado un nombre de usuario en la sesión.</p>
+    <% } %>
     <div class="container">
-        <h1>Bienvenido, usuario</h1>
+        
         <h2>Formulario PQRS</h2>
         <form action="SvProcesarPQRS" method="POST" enctype="multipart/form-data">
             <div>
@@ -164,6 +170,7 @@
                     <option value="Queja">Queja</option>
                     <option value="Reclamo">Reclamo</option>
                     <option value="Sugerencia">Sugerencia</option>
+                    <option value="Felicitacion">Felicitacion</option>
                 </select>
             </div>
             <div>
@@ -173,14 +180,6 @@
             <div>
                 <label for="archivo">Archivo (PDF):</label>
                 <input type="file" id="archivo" name="archivo" accept=".pdf">
-            </div>
-            <div>
-                <label for="fecha">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" required>
-            </div>
-            <div>
-                <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado" required>
             </div>
             <button type="submit">Enviar PQRS</button>
         </form>

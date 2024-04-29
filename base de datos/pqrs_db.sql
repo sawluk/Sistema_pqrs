@@ -36,6 +36,13 @@ CREATE TABLE Solicitud (
     FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud)
 );
 
+INSERT INTO TipoSolicitud (tipo) VALUES
+('Preguntas'),
+('Quejas'),
+('Reclamos'),
+('Sugerencias'),
+('Felicitaciones');
+
 -- Procedimiento de almacenado tabla usuario
 DELIMITER //
 -- Creamos el procedimiento almacenado para registrar un usuario

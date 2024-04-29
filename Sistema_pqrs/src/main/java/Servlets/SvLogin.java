@@ -5,6 +5,7 @@
 package Servlets;
 
 import com.mycompany.sistema_pqrs.Sistema_PQRS;
+import com.mycompany.sistema_pqrs.Sistema_PQRS.NombreYRolUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,9 +32,17 @@ public class SvLogin extends HttpServlet {
             throws ServletException, IOException {
         String cedula = request.getParameter("cedula");
         String contrasena = request.getParameter("contrasenia");
+        
 
-        // Obtener el rol del usuario
-        String rol = conectar.obtenerRolUsuario(cedula, contrasena);
+        // Obtener la información del usuario
+    NombreYRolUsuario informacionUsuario = conectar.obtenerInformacionUsuario(cedula, contrasena);
+
+    // Acceder al nombre y al rol del usuario
+    String nombre = informacionUsuario.getNombre();
+    String rol = informacionUsuario.getRol();
+
+    // Establecer el nombre del usuario en la sesión
+    request.getSession().setAttribute("nombreu", nombre);
 
 // Redirigir al usuario según su rol
 if (rol.equals("Admin")) {
