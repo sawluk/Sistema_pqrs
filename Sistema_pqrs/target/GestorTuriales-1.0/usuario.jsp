@@ -1,3 +1,8 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.mycompany.sistema_pqrs.Sistema_PQRS"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -149,40 +154,57 @@
     <div class="container">
         
         <h2>Formulario PQRS</h2>
-        <form action="SvProcesarPQRS" method="POST" enctype="multipart/form-data">
-            <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            <div>
-                <label for="cedula">Cédula:</label>
-                <input type="text" id="cedula" name="cedula" required>
-            </div>
-            <div>
-                <label for="correo">Correo:</label>
-                <input type="email" id="correo" name="correo" required>
-            </div>
-            <div>
-                <label for="tipo_solicitud">Tipo de Solicitud:</label>
-                <select id="tipo_solicitud" name="tipo_solicitud" required>
-                    <option value="" disabled selected>Seleccionar tipo</option>
-                    <option value="Pregunta">Pregunta</option>
-                    <option value="Queja">Queja</option>
-                    <option value="Reclamo">Reclamo</option>
-                    <option value="Sugerencia">Sugerencia</option>
-                    <option value="Felicitacion">Felicitacion</option>
-                </select>
-            </div>
-            <div>
-                <label for="mensaje">Mensaje:</label>
-                <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
-            </div>
-            <div>
-                <label for="archivo">Archivo (PDF):</label>
-                <input type="file" id="archivo" name="archivo" accept=".pdf">
-            </div>
-            <button type="submit">Enviar PQRS</button>
-        </form>
+<form action="SvPeticion" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="tipo_peticion" class="form-label text-light">Tipo de petición</label>
+        <select name="peticion" class="form-select" id="peticion">
+            <option value="" disabled selected>Seleccionar tipo</option>
+            <%
+                Connection conn = null;
+                PreparedStatement stmt = null;
+                ResultSet rs = null;
+                try {
+                    // Establecer conexión y ejecutar consulta SQL
+                    Sistema_PQRS conectar = new Sistema_PQRS();
+                    conn = conectar.establecerConexion();
+                    String sql = "SELECT idTipoSolicitud, tipo FROM tiposolicitud";
+                    stmt = conn.prepareStatement(sql);
+                    rs = stmt.executeQuery();
+
+                    // Iterar sobre los resultados de la consulta y generar las opciones del menú desplegable
+                    while (rs.next()) {
+                        int idTipoSolicitud = rs.getInt("idTipoSolicitud");
+                        String tipo = rs.getString("tipo");
+            %>
+            <option value="<%= idTipoSolicitud %>"><%= tipo %></option>
+            <%
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    // Cerrar recursos
+                    try {
+                        if (rs != null) rs.close();
+                        if (stmt != null) stmt.close();
+                        if (conn != null) conn.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            %>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="mensaje" class="form-label">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" class="form-control" rows="4" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="archivo" class="form-label">Archivo (PDF):</label>
+        <input type="file" id="archivo" name="archivo" accept=".pdf" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar PQRS</button>
+</form>
+
     </div>
 </body>
 </html>
