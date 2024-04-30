@@ -30,10 +30,10 @@ CREATE TABLE Solicitud (
     Mensaje TEXT NOT NULL,
     Archivo BLOB,
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Estado ENUM('Sin revisar', 'Revisado') NOT NULL,
+    Estado ENUM('Sin revisar', 'Revisado') DEFAULT 'Sin revisar' NOT NULL,
     Respuesta TEXT,
     FOREIGN KEY (IdUsuario) REFERENCES Usuario(Idusuario) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud)
+    FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO TipoSolicitud (tipo) VALUES
