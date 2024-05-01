@@ -5,7 +5,6 @@
 package Servlets;
 
 import com.mycompany.sistema_pqrs.Sistema_PQRS;
-import com.mycompany.sistema_pqrs.Sistema_PQRS.NombreYRolUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -25,40 +25,52 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         HttpSession session = request.getSession(false); // Obtener la sesión actual sin crear una nueva si no existe
+
+        if (session != null) {
+            session.invalidate(); // Invalidar la sesión actual
+        }
+
+        // Redirigir a la página de inicio
+        response.sendRedirect("index.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String cedula = request.getParameter("cedula");
-        String contrasena = request.getParameter("contrasenia");
-        
+    String cedula = request.getParameter("cedula");
+    String contrasena = request.getParameter("contrasenia");
 
-        // Obtener la información del usuario
-    NombreYRolUsuario informacionUsuario = conectar.obtenerInformacionUsuario(cedula, contrasena);
+    // Llamar al método obtenerInformacionUsuario
+    String[] informacionUsuario = conectar.obtenerInformacionUsuario(cedula, contrasena);
+    
+    if (informacionUsuario != null) {
 
-    // Acceder al nombre y al rol del usuario
-    String nombre = informacionUsuario.getNombre();
-    String rol = informacionUsuario.getRol();
+        // Si las credenciales son válidas, almacenar el id, rol y nombre en la sesión
+        HttpSession session = request.getSession();
+        session.setAttribute("idUsuario", informacionUsuario[0]);
+        session.setAttribute("nombreu", informacionUsuario[1]);
 
-    // Establecer el nombre del usuario en la sesión
-    request.getSession().setAttribute("nombreu", nombre);
+        // Obtener el rol del usuario desde informacionUsuario
+        String rol = informacionUsuario[2];
 
-// Redirigir al usuario según su rol
-if (rol.equals("Admin")) {
-    // Redirigir al usuario a la página de administrador
-    response.sendRedirect("admin.jsp");
-} else if (rol.equals("Usuario")) {
-    // Redirigir al usuario a la página de usuario 
-    response.sendRedirect("usuario.jsp");
-} else {
-    // Mostrar un mensaje de error o manejar de otra manera según corresponda
-    response.getWriter().println(rol);
-    response.sendRedirect("index.jsp");
-}
-
+        // Redirigir al usuario según su rol
+        if (rol.equals("Admin")) {
+            // Redirigir al usuario a la página de administrador
+            response.sendRedirect("admin.jsp");
+        } else if (rol.equals("Usuario")) {
+            // Redirigir al usuario a la página de usuario
+            response.sendRedirect("usuario.jsp");
+        } else {
+            // Mostrar un mensaje de error o manejar de otra manera según corresponda
+            response.getWriter().println(rol);
+            response.sendRedirect("index.jsp");
+        }
+    } else {
+        // Si las credenciales no son válidas, redirigir de vuelta al formulario de inicio de sesión con un mensaje de error
+        response.sendRedirect("index.jsp?errorP=true"); // Puedes redirigir a una página de error o al formulario de inicio de sesión nuevamente
     }
-
+}
     /**
      * Returns a short description of the servlet.
      *

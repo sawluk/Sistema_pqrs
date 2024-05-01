@@ -6,6 +6,7 @@ package Servlets;
 
 import com.mycompany.sistema_pqrs.Peticiones;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +41,15 @@ public class SvPeticion extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Obtener la sesión del usuario desde la solicitud
+        // Obtener los parámetros del formulario
+        String titulo = request.getParameter("titulo");
+        String mensaje = request.getParameter("mensaje");
+        int idtipoSolicitud = Integer.parseInt(request.getParameter("tipoSolicitud"));
+        int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+        LocalDateTime fechaSolicitud = LocalDateTime.now();
+        String rutaArchivo = ""; 
+        
+        p.almacenarDatosSolicitud(titulo, mensaje, idtipoSolicitud, idUsuario, fechaSolicitud, rutaArchivo);
    
     }
 

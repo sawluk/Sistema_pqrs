@@ -46,11 +46,12 @@ public class SvRegistrar extends HttpServlet {
     String contrasena = request.getParameter("contrasena");
     String rol = request.getParameter("rol");
     
-    // Llamar al método para registrar el usuario en la base de datos
+    // llamamos al metodo para registrar al usuario en la base de datos
     conectar.registrarUsuario(cedula, nombre, correo, contrasena, rol);
     
     // Redirigir a una página de éxito o mostrar un mensaje de éxito
-    response.sendRedirect("index.jsp");
+    response.sendRedirect("index.jsp?success=true");
+    
 } catch (Exception e) { // Manejar cualquier excepción
     e.printStackTrace(); // Esto imprimirá la traza de la excepción en la consola del servidor
     // Puedes manejar el error de otra manera, como mostrar un mensaje de error en la página
