@@ -186,11 +186,12 @@ public class Sistema_PQRS {
 
     // Establecer la conexión a la base de datos
     conn = establecerConexion();
-    try {
+    if(validarUsuario(cedula, contrasena)){
+        try {
         // Si hay conexión a la base de datos, se ejecuta la consulta
         if (conn != null) {
             // Consulta para obtener el ID, nombre y el rol del usuario
-            String consultaUsuario = "SELECT Id_usuario, Nombre_usuario, Rol FROM Usuario WHERE Cedula = ? AND Contrasena = ?";
+            String consultaUsuario = "SELECT Idusuario, Nombre_usuario, Rol FROM Usuario WHERE Cedula = ? AND Contrasena = ?";
             stmt = conn.prepareStatement(consultaUsuario);
             stmt.setString(1, cedula);
             stmt.setString(2, contrasena);
@@ -198,7 +199,7 @@ public class Sistema_PQRS {
 
             // Obtener el ID, nombre y el rol del usuario
             if (rs.next()) {
-                int idUsuario = rs.getInt("Id_usuario");
+                int idUsuario = rs.getInt("Idusuario");
                 String nombre = rs.getString("Nombre_usuario");
                 String rol = rs.getString("Rol");
                 
@@ -225,6 +226,8 @@ public class Sistema_PQRS {
             e.printStackTrace();
         }
     }
+    }
+    
 
     return informacionUsuario;
 }

@@ -144,12 +144,10 @@
             </div>
         </div>
         <% String nombreUsuario = (String) session.getAttribute("nombreu"); %>
-
+        <% String idusuario = (String) session.getAttribute("idusuario"); %>
         <%-- Verificar si el nombre de usuario está presente en la sesión --%>
         <% if (nombreUsuario != null && !nombreUsuario.isEmpty()) {%>
         <p>¡Hola, <%= nombreUsuario%>!</p>
-        <% } else { %>
-        <p>No se ha encontrado un nombre de usuario en la sesión.</p>
         <% } %>
         <div class="container">
 
@@ -166,7 +164,7 @@
                         <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
                     </div>
                     <label for="tipo_peticion" class="form-label text-light">Tipo de petición</label>
-                    <select name="peticion" class="form-select" id="peticion">
+                    <select name="peticion" class="form-select" id="peticion"required>
                         <option value="" disabled selected>Seleccionar tipo</option>
                         <%
                             Connection conn = null;
@@ -209,7 +207,7 @@
                         %>
                     </select>
                     <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
-                    <input type="hidden" name="idUsuario" value="<%= session.getAttribute("idUsuario")%>">
+                    <input type="hidden" name="idUsuario" value="<%= idusuario%>">
 
                     <!-- Campo oculto para la fecha de la solicitud -->
                     <input type="hidden" name="fechaSolicitud" value="<%= java.time.LocalDateTime.now()%>">

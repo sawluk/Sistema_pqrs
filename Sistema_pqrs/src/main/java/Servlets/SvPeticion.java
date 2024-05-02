@@ -6,6 +6,7 @@ package Servlets;
 
 import com.mycompany.sistema_pqrs.Peticiones;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 
 /**
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "SvPeticion", urlPatterns = {"/SvPeticion"})
 public class SvPeticion extends HttpServlet {
+    
 
     Peticiones p = new Peticiones();
     @Override
@@ -39,17 +42,16 @@ public class SvPeticion extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Obtener la sesión del usuario desde la solicitud
-        // Obtener los parámetros del formulario
-        String titulo = request.getParameter("titulo");
-        String mensaje = request.getParameter("mensaje");
-        int idtipoSolicitud = Integer.parseInt(request.getParameter("tipoSolicitud"));
-        int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
-        LocalDateTime fechaSolicitud = LocalDateTime.now();
-        String rutaArchivo = ""; 
+        throws ServletException, IOException {
         
-        p.almacenarDatosSolicitud(titulo, mensaje, idtipoSolicitud, idUsuario, fechaSolicitud, rutaArchivo);
+    // Obtener los parámetros del formulario
+    String titulo = request.getParameter("titulo");
+    String mensaje = request.getParameter("mensaje");
+    int idtipoSolicitud = Integer.parseInt(request.getParameter("idTipoSolicitud"));
+    int idUsuario = Integer.parseInt(request.getParameter("idusuario"));
+    LocalDateTime fechaSolicitud = LocalDateTime.now(); // Valor predeterminado
+
+        p.almacenarDatosSolicitud(titulo, mensaje, idtipoSolicitud, idUsuario, fechaSolicitud);
    
     }
 

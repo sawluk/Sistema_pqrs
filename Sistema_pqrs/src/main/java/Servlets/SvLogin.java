@@ -7,6 +7,7 @@ package Servlets;
 import com.mycompany.sistema_pqrs.Sistema_PQRS;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,14 +26,7 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         HttpSession session = request.getSession(false); // Obtener la sesión actual sin crear una nueva si no existe
-
-        if (session != null) {
-            session.invalidate(); // Invalidar la sesión actual
-        }
-
-        // Redirigir a la página de inicio
-        response.sendRedirect("index.jsp");
+        
     }
 
     @Override
@@ -48,7 +42,7 @@ public class SvLogin extends HttpServlet {
 
         // Si las credenciales son válidas, almacenar el id, rol y nombre en la sesión
         HttpSession session = request.getSession();
-        session.setAttribute("idUsuario", informacionUsuario[0]);
+        session.setAttribute("idusuario", informacionUsuario[0]);
         session.setAttribute("nombreu", informacionUsuario[1]);
 
         // Obtener el rol del usuario desde informacionUsuario

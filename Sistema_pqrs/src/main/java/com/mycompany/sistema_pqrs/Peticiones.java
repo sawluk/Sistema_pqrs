@@ -4,11 +4,13 @@
  */
 package com.mycompany.sistema_pqrs;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -18,7 +20,7 @@ public class Peticiones {
     
     Sistema_PQRS conectar = new Sistema_PQRS();
     
-    public void almacenarDatosSolicitud(String titulo, String mensaje, int idtipoSolicitud, int idUsuario, LocalDateTime fechaSolicitud, String rutaArchivo) {
+    public void almacenarDatosSolicitud(String titulo, String mensaje, int idtipoSolicitud, int idUsuario, LocalDateTime fechaSolicitud) throws IOException {
     Connection conn = null;
     PreparedStatement stmt = null;
     try {
@@ -27,20 +29,20 @@ public class Peticiones {
         
         if (conn != null) { // Verificar si hay conexión a la base de datos para hacer el registro de la solicitud
             
-            // Definir la consulta SQL para insertar una nueva solicitud
-            String sql = "INSERT INTO solicitudes (Titulo, Mensaje, idTipoSolicitud, IdUsuario, FechaSolicitud, RutaArchivo) VALUES (?, ?, ?, ?, ?, ?)";
+            // Preparar la llamada al procedimiento almacenado
+            stmt = conn.prepareCall("{CALL InsertarSolicitud(?, ?, ?, ?, ?, ?)}");
             
-            // Preparar la declaración
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, titulo);
-            stmt.setString(2, mensaje);
-            stmt.setInt(3, idtipoSolicitud);
-            stmt.setInt(4, idUsuario);
-            stmt.setObject(5, fechaSolicitud); // Usamos setObject para almacenar LocalDateTime en la base de datos
-            stmt.setString(6, rutaArchivo);
+            // Establecer los parámetros de entrada
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, idtipoSolicitud);
+            stmt.setString(3, titulo);
+            stmt.setString(4, mensaje);
+            stmt.setObject(5, fechaSolicitud);
+            //stmt.setBinaryStream(5, archivoStream.getInputStream());
+
             
-            // Ejecutar la consulta
-            stmt.executeUpdate();
+            // Ejecutar el procedimiento almacenado
+            stmt.execute();
             
             System.out.println("Solicitud almacenada exitosamente.");
         } else {

@@ -36,12 +36,31 @@ CREATE TABLE Solicitud (
     FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+DELIMITER //
+CREATE PROCEDURE InsertarSolicitud (
+    IN p_IdUsuario INT,                  
+    IN p_IdTipoSolicitud INT,            
+    IN p_Titulo VARCHAR(100),             
+    IN p_Mensaje TEXT,                    
+    IN p_Archivo BLOB,                    
+    OUT p_IdSolicitud INT            
+)
+BEGIN
+    -- Insertar una nueva solicitud en la tabla Solicitud
+    INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, Archivo)
+    VALUES (p_IdUsuario, p_IdTipoSolicitud, p_Titulo, p_Mensaje, p_Archivo);
+    
+    -- Obtener el Id de la solicitud recién insertada
+    SET p_IdSolicitud = LAST_INSERT_ID();
+END //
+DELIMITER ;
+
 INSERT INTO TipoSolicitud (tipo) VALUES
-('Preguntas'),
-('Quejas'),
-('Reclamos'),
-('Sugerencias'),
-('Felicitaciones');
+('Pregunta'),
+('Queja'),
+('Reclamo'),
+('Sugerencia'),
+('Felicitacion');
 
 -- Procedimiento de almacenado tabla usuario
 DELIMITER //
