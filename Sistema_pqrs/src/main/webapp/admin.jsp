@@ -62,8 +62,7 @@
     <body>
         <div class="navbar">
         <a class="active" href="#">Inicio</a>
-        <a href="#">Acerca de</a>
-        <a href="#">Contacto</a>
+        <a href="peticiones.jsp">Peticiones</a>
         <div class="navbar-right">
             <a href="index.jsp">Cerrar sesion</a>
         </div>
@@ -76,5 +75,23 @@
     <% } else { %>
         <p>No se ha encontrado un nombre de usuario en la sesión.</p>
     <% } %>
+    
+    <h1>Usuarios Registrados</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
     </body>
-</html>
+    

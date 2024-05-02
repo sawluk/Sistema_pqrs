@@ -12,7 +12,7 @@
 
         /* Estilos para el contenedor principal */
         body {
-            background-color: #f8f9fa;
+            background-color: darkblue;
         }
         .center-text {
     text-align: center;
@@ -36,7 +36,7 @@
         .card-title {
             font-size: 24px;
             font-weight: bold;
-            color: #333;
+            color:  #fff;
         }
 
         /* Estilos para los botones */
@@ -58,16 +58,20 @@
     </style>
 </head>
 <body>
+    <main>
+    <div>
     <h2 class="center-text">Mi empresa</h2>
+    </div>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <!-- Formulario de Inicio de Sesión -->
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h1 class="card-title text-center">Inicio de Sesión</h1>
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body px-4 py-5 px-md-5">
+                    <h1 class="card-title text-center">Inicio de Sesión</h1>
                         <form action="SvLogin" method="POST">
                             <div class="form-group">
+                                <div data-mdb-input-init class="form-outline">
                                 <label for="username">Cédula:</label>
                                 <input type="text" class="form-control" id="username" name="cedula" required>
                             </div>
@@ -79,14 +83,16 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <p class="text-center">¿Aún no tienes cuenta?</p>
+                        <p class="text-center">¿Aún no tienes cuenta? Créala!!!</p>
                         <!-- Botón para abrir la ventana modal -->
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#registroModal">Registrarse</button> 
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#registroModal">Crear cuenta</button> 
                     </div>
                 </div>
             </div>
         </div>
     </div>
+        </div>
+        </main>
 
     <!-- Ventana Modal para el Formulario de Registro -->
     <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true">
@@ -124,7 +130,7 @@
                                 <option value="Usuario">Usuario</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                        <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
                     </form>
                 </div>
             </div>

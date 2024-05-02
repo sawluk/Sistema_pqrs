@@ -137,8 +137,7 @@
     <body>
         <div class="navbar">
             <a class="active" href="#">Inicio</a>
-            <a href="#">Acerca de</a>
-            <a href="#">Contacto</a>
+            <a href="#">Lista PQRS</a>
             <div class="navbar-right">
                 <a href="index.jsp">Cerrar sesion</a>
             </div>
