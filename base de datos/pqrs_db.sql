@@ -82,4 +82,26 @@ BEGIN
 END //
 
 DELIMITER ;
+DELIMITER //
+-- Procedimiento para editar los datos del usuario
+CREATE PROCEDURE editarUsuario(
+    IN p_Idusuario INT,
+    IN p_Cedula VARCHAR(20),
+    IN p_Nombre_usuario VARCHAR(50),
+    IN p_Correo VARCHAR(50),
+    IN p_Contrasena VARCHAR(50),
+    IN p_Rol ENUM('Admin', 'Usuario')
+)
+BEGIN
+    UPDATE usuario
+    SET Cedula = p_Cedula,
+        Nombre_usuario = p_Nombre_usuario,
+        Correo = p_Correo,
+        Contrasena = p_Contrasena,
+        Rol = p_Rol
+    WHERE Idusuario = p_Idusuario;
+END //
+
+DELIMITER ;
+
 
