@@ -12,7 +12,7 @@ CREATE TABLE usuario (
     Nombre_usuario VARCHAR(50)NOT NULL,
     Correo VARCHAR(50) UNIQUE NOT NULL,
     Contrasena VARCHAR(50) NOT NULL,
-	Rol ENUM('Admin', 'Usuario') NOT NULL
+	Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario'
 );
 
 -- tabla tipo de solicitud
@@ -28,7 +28,7 @@ CREATE TABLE Solicitud (
     IdTipoSolicitud INT NOT NULL,
     Titulo VARCHAR(100) NOT NULL,
     Mensaje TEXT NOT NULL,
-    Archivo BLOB,
+    ruta_archivo VARCHAR(255),
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Estado ENUM('Sin revisar', 'Revisado') DEFAULT 'Sin revisar' NOT NULL,
     Respuesta TEXT,
@@ -37,23 +37,23 @@ CREATE TABLE Solicitud (
 );
 
 DELIMITER //
-CREATE PROCEDURE InsertarSolicitud (
-    IN p_IdUsuario INT,                  
-    IN p_IdTipoSolicitud INT,            
-    IN p_Titulo VARCHAR(100),             
-    IN p_Mensaje TEXT,                    
-    IN p_Archivo BLOB,                    
-    OUT p_IdSolicitud INT            
+
+CREATE PROCEDURE InsertarSolicitud(
+    IN p_idUsuario INT,
+    IN p_idtipoSolicitud INT,
+    IN p_titulo VARCHAR(255),
+    IN p_mensaje TEXT,
+    IN p_rutaArchivo VARCHAR(255),
+    IN p_fechaSolicitud DATETIME
 )
 BEGIN
-    -- Insertar una nueva solicitud en la tabla Solicitud
-    INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, Archivo)
-    VALUES (p_IdUsuario, p_IdTipoSolicitud, p_Titulo, p_Mensaje, p_Archivo);
-    
-    -- Obtener el Id de la solicitud recién insertada
-    SET p_IdSolicitud = LAST_INSERT_ID();
+    -- Insertar una nueva solicitud con los parámetros proporcionados
+    INSERT INTO solicitud (IdUsuario, IdtipoSolicitud, Titulo, Mensaje, ruta_archivo, FechaSolicitud)
+    VALUES (p_idUsuario, p_idtipoSolicitud, p_titulo, p_mensaje, p_rutaArchivo, p_fechaSolicitud);
 END //
+
 DELIMITER ;
+
 
 INSERT INTO TipoSolicitud (tipo) VALUES
 ('Pregunta'),
@@ -64,24 +64,18 @@ INSERT INTO TipoSolicitud (tipo) VALUES
 
 -- Procedimiento de almacenado tabla usuario
 DELIMITER //
--- Creamos el procedimiento almacenado para registrar un usuario
 CREATE PROCEDURE RegistrarUsuario(
-    -- Definimos los parámetros de entrada del procedimiento
     IN p_cedula VARCHAR(20),
     IN p_nombre_usuario VARCHAR(50),
     IN p_correo VARCHAR(50),
-    IN p_contrasena VARCHAR(50),
-    IN p_rol ENUM('Admin', 'Usuario')
+    IN p_contrasena VARCHAR(50)
 )
 BEGIN
-    -- Iniciamos el bloque del procedimiento almacenado
-    -- Insertamos un nuevo registro en la tabla usuario con los parámetros proporcionados
-    INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol)
-    VALUES (p_cedula, p_nombre_usuario, p_correo, p_contrasena, p_rol);
--- Finalizamos el bloque del procedimiento almacenado
+    INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena)
+    VALUES (p_cedula, p_nombre_usuario, p_correo, p_contrasena);
 END //
-
 DELIMITER ;
+
 DELIMITER //
 -- Procedimiento para editar los datos del usuario
 CREATE PROCEDURE editarUsuario(
@@ -103,5 +97,12 @@ BEGIN
 END //
 
 DELIMITER ;
+
+ALTER TABLE usuario
+MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
+
+ALTER TABLE Solicitud
+CHANGE COLUMN Archivo ruta_archivo VARCHAR(255);
+
 
 

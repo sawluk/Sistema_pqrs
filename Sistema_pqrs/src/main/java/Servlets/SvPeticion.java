@@ -6,7 +6,6 @@ package Servlets;
 
 import com.mycompany.sistema_pqrs.Peticiones;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 
 /**
@@ -44,14 +42,17 @@ public class SvPeticion extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         
-    // Obtener los parámetros del formulario
-    String titulo = request.getParameter("titulo");
-    String mensaje = request.getParameter("mensaje");
-    int idtipoSolicitud = Integer.parseInt(request.getParameter("idTipoSolicitud"));
-    int idUsuario = Integer.parseInt(request.getParameter("idusuario"));
-    LocalDateTime fechaSolicitud = LocalDateTime.now(); // Valor predeterminado
+        // Obtener los parámetros del formulario
+        String titulo = request.getParameter("titulo");
+        String mensaje = request.getParameter("mensaje");
+        int idtipoSolicitud = Integer.parseInt(request.getParameter("tipoSolicitud"));
+        int idusuario = Integer.parseInt(request.getParameter("idUsuario"));
+        LocalDateTime fechaSolicitud = LocalDateTime.now();
+        String rutaArchivo = ""; // Aquí puedes agregar lógica para manejar el archivo adjunto si es necesario
 
-        p.almacenarDatosSolicitud(titulo, mensaje, idtipoSolicitud, idUsuario, fechaSolicitud);
+        p.almacenarDatosSolicitud(idusuario, idtipoSolicitud, titulo, mensaje, rutaArchivo , fechaSolicitud);
+        
+        //response.sendRedirect("peticiones.jsp?success=true");
    
     }
 

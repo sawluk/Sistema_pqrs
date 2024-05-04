@@ -143,7 +143,6 @@
             </div>
         </div>
         <% String nombreUsuario = (String) session.getAttribute("nombreu"); %>
-        <% String idusuario = (String) session.getAttribute("idusuario"); %>
         <%-- Verificar si el nombre de usuario está presente en la sesión --%>
         <% if (nombreUsuario != null && !nombreUsuario.isEmpty()) {%>
         <p>¡Hola, <%= nombreUsuario%>!</p>
@@ -157,13 +156,9 @@
                     <div class="form-group mt-3">
                         <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título de la Solicitud" required>
                     </div>
-
-                    <!-- Campo de mensaje de la solicitud -->
-                    <div class="form-group mt-3">
-                        <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
-                    </div>
                     <label for="tipo_peticion" class="form-label text-light">Tipo de petición</label>
-                    <select name="peticion" class="form-select" id="peticion"required>
+                    <select name="tipoSolicitud" class="form-select" id="tipoSolicitud" required>
+
                         <option value="" disabled selected>Seleccionar tipo</option>
                         <%
                             Connection conn = null;
@@ -182,7 +177,9 @@
                                     int idTipoSolicitud = rs.getInt("idTipoSolicitud");
                                     String tipo = rs.getString("tipo");
                         %>
-                        <option value="<%= idTipoSolicitud%>"><%= tipo%></option>
+                        <option value="<%= idTipoSolicitud %>"><%= tipo %></option>
+
+
                         <%
                                 }
                             } catch (SQLException e) {
@@ -205,11 +202,15 @@
                             }
                         %>
                     </select>
+                    <!-- Campo de mensaje de la solicitud -->
+                    <div class="form-group mt-3">
+                        <textarea class="form-control" name="mensaje" id="mensaje"rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
+                    </div>
                     <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
-                    <input type="hidden" name="idUsuario" value="<%= idusuario%>">
+                    <input type="hidden" name="idUsuario" value="<%= session.getAttribute("idusuario") %>">
 
                     <!-- Campo oculto para la fecha de la solicitud -->
-                    <input type="hidden" name="fechaSolicitud" value="<%= java.time.LocalDateTime.now()%>">
+                    <input type="hidden" name="fechaSolicitud" id="fechaSolicitud" value="<%= java.time.LocalDateTime.now()%>">
 
                 </div>
                 <div class="mb-3">

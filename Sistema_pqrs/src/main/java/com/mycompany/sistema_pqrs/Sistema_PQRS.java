@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class Sistema_PQRS {
 
 /**
- * 
+ * Metodo para establecer la conexion a la base de datos
  * @return 
  */    
     public Connection establecerConexion() {
@@ -38,58 +38,38 @@ public class Sistema_PQRS {
         return conn;
     }
     /**
-     * metodo que Registra al usuario en el sistema
+     * Metodo que registra al usuario en el sistema
      * @param cedula
      * @param nombre
      * @param correo
-     * @param contrasena
-     * @param rol 
+     * @param contrasena 
      */
     
-    public void registrarUsuario(String cedula, String nombre, String correo, String contrasena, String rol) {
+    public void registrarUsuario(String cedula, String nombre, String correo, String contrasena) {
     Connection conn = null;
     PreparedStatement stmt = null;
-    ResultSet rs = null; // ResultSet para almacenar el resultado de la consulta de validación
-    // Llamamos al metodo para conectar a la base de datos
+    ResultSet rs = null;
     conn = establecerConexion();
     try {
-        
-        if (conn != null) { // Verificar si hay conexión a la base de datos para hacer el registro del usuario
-            
-            // Definir la consulta SQL para verificar si la cédula ya está registrada
+        if (conn != null) {
             String sqlConsulta = "SELECT COUNT(*) AS cantidad FROM usuario WHERE Cedula = ?";
-            
-            // Preparar la declaración para la consulta de validación
             PreparedStatement stmtConsulta = conn.prepareStatement(sqlConsulta);
             stmtConsulta.setString(1, cedula);
-            
-            // Ejecutar la consulta
             rs = stmtConsulta.executeQuery();
-            
-            // Obtener el resultado de la consulta de validación
             if(rs.next()) {
                 int cantidad = rs.getInt("cantidad");
                 if(cantidad > 0) {
-                    // La cédula ya está registrada, mostrar mensaje de error y salir del método
                     System.err.println("La cédula ya está registrada en el sistema.");
                     return;
                 }
             }
-            
-            // Definir la consulta SQL para insertar un nuevo usuario
-            String sql = "INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) VALUES (?, ?, ?, ?, ?)";
-            
-            // Preparar la declaración
+            String sql = "INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena) VALUES (?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, cedula);
             stmt.setString(2, nombre);
             stmt.setString(3, correo);
             stmt.setString(4, contrasena);
-            stmt.setString(5, rol);
-            
-            // Ejecutar la consulta
             stmt.executeUpdate();
-            
             System.out.println("Usuario registrado exitosamente.");
         } else {
             System.err.println("No se pudo establecer la conexión con la base de datos.");
@@ -97,7 +77,6 @@ public class Sistema_PQRS {
     } catch (SQLException e) {
         System.err.println("Error al registrar usuario: " + e.getMessage());
     } finally {
-        // Cerrar el ResultSet de la consulta de validación
         try {
             if (rs != null) {
                 rs.close();
@@ -105,7 +84,6 @@ public class Sistema_PQRS {
         } catch (SQLException e) {
             System.err.println("Error al cerrar el ResultSet: " + e.getMessage());
         }
-        // Cerrar la conexión y liberar recursos
         try {
             if (stmt != null) {
                 stmt.close();
@@ -119,8 +97,9 @@ public class Sistema_PQRS {
     }
 }
 
+
     /**
-     * 
+     * Metodo que valida al usuario para ingresar al sistema
      * @param cedula
      * @param contrasena
      * @return boolean usuarioValido
@@ -186,6 +165,7 @@ public class Sistema_PQRS {
 
     // Establecer la conexión a la base de datos
     conn = establecerConexion();
+    //validamos al usuario si esta registrado en la base de datos
     if(validarUsuario(cedula, contrasena)){
         try {
         // Si hay conexión a la base de datos, se ejecuta la consulta
@@ -228,10 +208,7 @@ public class Sistema_PQRS {
     }
     }
     
-
     return informacionUsuario;
 }
-
-
 
 }

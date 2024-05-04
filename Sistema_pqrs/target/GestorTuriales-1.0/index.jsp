@@ -122,14 +122,6 @@
                             <label for="contrasena">Contraseña:</label>
                             <input type="password" class="form-control" id="contrasena" name="contrasena" required>
                         </div>
-                        <div class="form-group">
-                            <label for="rol">Rol:</label>
-                            <select class="form-control" id="rol" name="rol" required>
-                                <option value="" disabled selected>Seleccionar Rol</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Usuario">Usuario</option>
-                            </select>
-                        </div>
                         <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
                     </form>
                 </div>

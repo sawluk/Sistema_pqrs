@@ -20,7 +20,7 @@ public class Peticiones {
     
     Sistema_PQRS conectar = new Sistema_PQRS();
     
-    public void almacenarDatosSolicitud(String titulo, String mensaje, int idtipoSolicitud, int idUsuario, LocalDateTime fechaSolicitud) throws IOException {
+    public void almacenarDatosSolicitud( int idUsuario, int idtipoSolicitud, String titulo, String mensaje, String rutaArchivo , LocalDateTime fechaSolicitud) throws IOException {
     Connection conn = null;
     PreparedStatement stmt = null;
     try {
@@ -37,7 +37,8 @@ public class Peticiones {
             stmt.setInt(2, idtipoSolicitud);
             stmt.setString(3, titulo);
             stmt.setString(4, mensaje);
-            stmt.setObject(5, fechaSolicitud);
+            stmt.setString(5, rutaArchivo);
+            stmt.setObject(6, fechaSolicitud);
             //stmt.setBinaryStream(5, archivoStream.getInputStream());
 
             

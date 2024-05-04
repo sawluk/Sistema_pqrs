@@ -44,10 +44,9 @@ public class SvRegistrar extends HttpServlet {
     String nombre = request.getParameter("nombre");
     String correo = request.getParameter("correo");
     String contrasena = request.getParameter("contrasena");
-    String rol = request.getParameter("rol");
     
     // llamamos al metodo para registrar al usuario en la base de datos
-    conectar.registrarUsuario(cedula, nombre, correo, contrasena, rol);
+    conectar.registrarUsuario(cedula, nombre, correo, contrasena);
     
     // Redirigir a una página de éxito o mostrar un mensaje de éxito
     response.sendRedirect("index.jsp?success=true");
