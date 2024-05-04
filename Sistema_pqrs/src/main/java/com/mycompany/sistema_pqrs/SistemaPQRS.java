@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * @author Acer
  */
-public class Sistema_PQRS {
+public class SistemaPQRS {
 
 /**
  * Metodo para establecer la conexion a la base de datos
@@ -105,110 +105,35 @@ public class Sistema_PQRS {
      * @return boolean usuarioValido
      */
     
-    public boolean validarUsuario(String cedula, String contrasena) {
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    boolean usuarioValido = false;
-    
-    // Establecer la conexión a la base de datos
-    conn = establecerConexion();  
-    
-    // Si hay conexión a la base de datos, se ejecuta la consulta
-    if(conn != null) {
-        try {
-            // Consulta para verificar si el usuario está registrado
-            String consultaUsuario = "SELECT * FROM Usuario WHERE Cedula = ? AND Contrasena = ?";
-            stmt = conn.prepareStatement(consultaUsuario);
-            stmt.setString(1, cedula);
-            stmt.setString(2, contrasena);
-            rs = stmt.executeQuery();
-
-            // Verificar si se encontró al usuario
-            usuarioValido = rs.next();
-        } catch (SQLException e) {
-            // Manejar cualquier error de SQL
-            e.printStackTrace();
-        } finally {
-            // Cerrar la conexión y liberar recursos
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    return usuarioValido;
-}
-
-    /**
-     * 
-     * @param cedula
-     * @param contrasena
-     * @return 
-     */
-    
     public String[] obtenerInformacionUsuario(String cedula, String contrasena) {
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    String[] informacionUsuario = null;
+        Connection conn = establecerConexion();
+        String[] datosUsuario = null;
 
-    // Establecer la conexión a la base de datos
-    conn = establecerConexion();
-    //validamos al usuario si esta registrado en la base de datos
-    if(validarUsuario(cedula, contrasena)){
         try {
-        // Si hay conexión a la base de datos, se ejecuta la consulta
-        if (conn != null) {
-            // Consulta para obtener el ID, nombre y el rol del usuario
-            String consultaUsuario = "SELECT Idusuario, Nombre_usuario, Rol FROM Usuario WHERE Cedula = ? AND Contrasena = ?";
-            stmt = conn.prepareStatement(consultaUsuario);
-            stmt.setString(1, cedula);
-            stmt.setString(2, contrasena);
-            rs = stmt.executeQuery();
+            String sql = "SELECT Idusuario, Rol, Nombre_usuario FROM usuarios WHERE Cedula = ? AND Contrasena = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, cedula);
+            pstmt.setString(2, contrasena);
+            ResultSet rs = pstmt.executeQuery();
 
-            // Obtener el ID, nombre y el rol del usuario
             if (rs.next()) {
+                // Si las credenciales son válidas, obtener el id, rol y nombre del usuario
                 int idUsuario = rs.getInt("Idusuario");
-                String nombre = rs.getString("Nombre_usuario");
+                System.out.println("ID del usuario en sesión: " + idUsuario);
                 String rol = rs.getString("Rol");
-                
-                // Construir el arreglo de datos del usuario
-                informacionUsuario = new String[]{String.valueOf(idUsuario), nombre, rol};
+                String nombre = rs.getString("Nombre_usuario");
+                datosUsuario = new String[]{String.valueOf(idUsuario), rol, nombre};
             }
-        }
-    } catch (SQLException e) {
-        // Manejar cualquier error de SQL
-        e.printStackTrace();
-    } finally {
-        // Cerrar la conexión y liberar recursos
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error al iniciar sesión: " + e.getMessage());
         }
+
+        return datosUsuario;
     }
-    }
-    
-    return informacionUsuario;
-}
+
 
 }

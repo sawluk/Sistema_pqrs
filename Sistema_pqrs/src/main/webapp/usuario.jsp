@@ -1,5 +1,5 @@
 <%@page import="java.sql.SQLException"%>
-<%@page import="com.mycompany.sistema_pqrs.Sistema_PQRS"%>
+<%@page import="com.mycompany.sistema_pqrs.SistemaPQRS"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
@@ -142,7 +142,7 @@
                 <a href="index.jsp">Cerrar sesion</a>
             </div>
         </div>
-        <% String nombreUsuario = (String) session.getAttribute("nombreu"); %>
+        <% String nombreUsuario = (String) session.getAttribute("nombre"); %>
         <%-- Verificar si el nombre de usuario está presente en la sesión --%>
         <% if (nombreUsuario != null && !nombreUsuario.isEmpty()) {%>
         <p>¡Hola, <%= nombreUsuario%>!</p>
@@ -150,75 +150,77 @@
         <div class="container">
 
             <h2>Formulario PQRS</h2>
-            <form action="SvPeticion" method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <!-- Campo de título de la solicitud -->
-                    <div class="form-group mt-3">
-                        <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título de la Solicitud" required>
-                    </div>
-                    <label for="tipo_peticion" class="form-label text-light">Tipo de petición</label>
-                    <select name="tipoSolicitud" class="form-select" id="tipoSolicitud" required>
+            <form action="SvPeticion" method="post" role="form">
 
-                        <option value="" disabled selected>Seleccionar tipo</option>
-                        <%
-                            Connection conn = null;
-                            PreparedStatement stmt = null;
-                            ResultSet rs = null;
-                            try {
-                                // Establecer conexión y ejecutar consulta SQL
-                                Sistema_PQRS conectar = new Sistema_PQRS();
-                                conn = conectar.establecerConexion();
-                                String sql = "SELECT idTipoSolicitud, tipo FROM tiposolicitud";
-                                stmt = conn.prepareStatement(sql);
-                                rs = stmt.executeQuery();
+                        <!-- Campo de título de la solicitud -->
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título de la Solicitud" required>
+                        </div>
 
-                                // Iterar sobre los resultados de la consulta y generar las opciones del menú desplegable
-                                while (rs.next()) {
-                                    int idTipoSolicitud = rs.getInt("idTipoSolicitud");
-                                    String tipo = rs.getString("tipo");
-                        %>
-                        <option value="<%= idTipoSolicitud %>"><%= tipo %></option>
+                        <!-- Campo de mensaje de la solicitud -->
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
+                        </div>
 
+                        <!-- Campo de tipo de solicitud -->
+                        <div class="form-group mt-3">
+                            <select class="form-control" name="tipoSolicitud" id="tipoSolicitud" required>
+                                <option value="" selected disabled>Seleccionar Tipo de Solicitud</option>
+                                <% 
+                                    // Crear una instancia de la clase gestionarSistema
+                                    SistemaPQRS conectar = new SistemaPQRS();
+                                    // Importa las clases necesarias y realiza la conexión a la base de datos
+                                    Connection conn = null;
+                                    PreparedStatement pstmt = null;
+                                    ResultSet rs = null;
+        
+                                    try {
+                                        conn = conectar.establecerConexion();
+                                        String sql = "SELECT IdTipoSolicitud, tipo FROM tiposolicitud";
+                                        pstmt = conn.prepareStatement(sql);
+                                        rs = pstmt.executeQuery();
 
-                        <%
-                                }
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            } finally {
-                                // Cerrar recursos
-                                try {
-                                    if (rs != null) {
-                                        rs.close();
+                                        while (rs.next()) {
+                                            int idTipoSolicitud = rs.getInt("IdTipoSolicitud");
+                                            String nombre = rs.getString("tipo");
+                                %>
+                                <option value="<%= idTipoSolicitud %>"><%= nombre %></option>
+                                <% 
+                                        }
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        // Cierra la conexión y los recursos
+                                        try {
+                                            if (rs != null) rs.close();
+                                            if (pstmt != null) pstmt.close();
+                                            if (conn != null) conn.close();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                    if (stmt != null) {
-                                        stmt.close();
-                                    }
-                                    if (conn != null) {
-                                        conn.close();
-                                    }
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        %>
-                    </select>
-                    <!-- Campo de mensaje de la solicitud -->
-                    <div class="form-group mt-3">
-                        <textarea class="form-control" name="mensaje" id="mensaje"rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
-                    </div>
-                    <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
-                    <input type="hidden" name="idUsuario" value="<%= session.getAttribute("idusuario") %>">
+                                %>
+                            </select>
 
-                    <!-- Campo oculto para la fecha de la solicitud -->
-                    <input type="hidden" name="fechaSolicitud" id="fechaSolicitud" value="<%= java.time.LocalDateTime.now()%>">
+                        </div>
 
-                </div>
-                <div class="mb-3">
-                    <label for="archivo" class="form-label">Archivo (PDF):</label>
-                    <input type="file" id="archivo" name="archivo" accept=".pdf" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary">Enviar PQRS</button>
-            </form>
+                        <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
+                        <input type="hidden" name="idUsuario" value="<%= session.getAttribute("idUsuario") %>">
+                        
+                        <!-- Campo oculto para la fecha de la solicitud -->
+                        <input type="hidden" name="fechaSolicitud" value="<%= java.time.LocalDateTime.now() %>">
+
+
+                        <!-- Campo para subir archivo adjunto -->
+                        <div class="form-group mt-3">
+                            <label for="archivoAdjunto"></label>
+                            <input type="file" class="form-control" name="archivoAdjunto" id="archivoAdjunto">
+                        </div>
+
+                        <div class="my-3"></div>
+                        <!-- Botón para enviar la solicitud -->
+                        <div class="text-center"><button type="submit">Enviar Solicitud</button></div>
+                    </form>
 
         </div>
     </body>

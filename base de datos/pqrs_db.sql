@@ -55,7 +55,7 @@ END //
 DELIMITER ;
 
 
-INSERT INTO TipoSolicitud (tipo) VALUES
+INSERT INTO tipoSolicitud (tipo) VALUES
 ('Pregunta'),
 ('Queja'),
 ('Reclamo'),

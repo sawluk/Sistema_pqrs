@@ -4,7 +4,7 @@
  */
 package Servlets;
 
-import com.mycompany.sistema_pqrs.Sistema_PQRS;
+import com.mycompany.sistema_pqrs.SistemaPQRS;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "SvRegistrar", urlPatterns = {"/SvRegistrar"})
 public class SvRegistrar extends HttpServlet {
 
-    Sistema_PQRS conectar = new Sistema_PQRS();
+    SistemaPQRS conectar = new SistemaPQRS();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
