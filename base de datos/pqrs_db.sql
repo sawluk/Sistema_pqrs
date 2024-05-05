@@ -54,6 +54,10 @@ END //
 
 DELIMITER ;
 
+INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
+VALUES 
+('123456789', 'David', 'David@gmail.com', 'admin123', 'Admin'),
+('87654321', 'Andres', 'Andres@gmail.com', 'admin123', 'Usuario');
 
 INSERT INTO tipoSolicitud (tipo) VALUES
 ('Pregunta'),

@@ -120,7 +120,6 @@ public class SistemaPQRS {
             if (rs.next()) {
                 // Si las credenciales son válidas, obtener el id, rol y nombre del usuario
                 int idUsuario = rs.getInt("Idusuario");
-                System.out.println("ID del usuario en sesión: " + idUsuario);
                 String rol = rs.getString("Rol");
                 String nombre = rs.getString("Nombre_usuario");
                 datosUsuario = new String[]{String.valueOf(idUsuario), rol, nombre};
