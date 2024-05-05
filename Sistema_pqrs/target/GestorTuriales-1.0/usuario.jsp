@@ -137,7 +137,7 @@
     <body>
         <div class="navbar">
             <a class="active" href="usuario.jsp">Inicio</a>
-            <a href="peticiones.jsp">Lista PQRS</a>
+            <a href="solicitud.jsp">Lista PQRS</a>
             <div class="navbar-right">
                 <a href="index.jsp">Cerrar sesion</a>
             </div>
@@ -155,11 +155,6 @@
                         <!-- Campo de título de la solicitud -->
                         <div class="form-group mt-3">
                             <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título de la Solicitud" required>
-                        </div>
-
-                        <!-- Campo de mensaje de la solicitud -->
-                        <div class="form-group mt-3">
-                            <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
                         </div>
 
                         <!-- Campo de tipo de solicitud -->
@@ -202,6 +197,10 @@
                                 %>
                             </select>
 
+                        </div>
+                            <!-- Campo de mensaje de la solicitud -->
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
                         </div>
 
                         <!-- Campo oculto para el ID del usuario obtenido de la sesión -->

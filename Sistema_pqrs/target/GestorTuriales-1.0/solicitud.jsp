@@ -42,7 +42,7 @@ int idUsuario = Integer.parseInt(idUsuarioS);
 
 // Importar las clases necesarias y establecer la conexión a la base de datos
 PreparedStatement pstmt = null;
-Sistema_PQRS conectar = new Sistema_PQRS();
+SistemaPQRS conectar = new SistemaPQRS();
 Connection conn = null;
 PreparedStatement stmt = null;
 ResultSet rs = null;

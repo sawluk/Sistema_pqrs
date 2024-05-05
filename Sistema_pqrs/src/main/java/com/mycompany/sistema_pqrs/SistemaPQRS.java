@@ -110,7 +110,7 @@ public class SistemaPQRS {
         String[] datosUsuario = null;
 
         try {
-            String sql = "SELECT Idusuario, Rol, Nombre_usuario FROM usuarios WHERE Cedula = ? AND Contrasena = ?";
+            String sql = "SELECT Idusuario, Rol, Nombre_usuario FROM usuario WHERE Cedula = ? AND Contrasena = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, cedula);
             pstmt.setString(2, contrasena);
