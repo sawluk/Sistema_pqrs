@@ -23,7 +23,7 @@ public class SistemaPQRS {
     public Connection establecerConexion() {
         String url = "jdbc:mysql://localhost:3306/sistema_pqrs?serverTimeZone=utc";
         String user = "root"; // Nombre de usuario correcto
-        String password = "admin"; // Contraseña de tu base de datos, si la tienes
+        String password = "ingsistemas"; // Contraseña de tu base de datos, si la tienes
         Connection conn = null;
 
         try {
@@ -105,11 +105,12 @@ public class SistemaPQRS {
      * @return boolean usuarioValido
      */
     
-    public String[] obtenerInformacionUsuario(String cedula, String contrasena) {
-        Connection conn = establecerConexion();
-        String[] datosUsuario = null;
+    public String[] ingresar(String cedula, String contrasena) {
+    Connection conn = establecerConexion();
+    String[] datosUsuario = null;
 
-        try {
+    try {
+        if (conn != null) {
             String sql = "SELECT Idusuario, Rol, Nombre_usuario FROM usuario WHERE Cedula = ? AND Contrasena = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, cedula);
@@ -128,12 +129,15 @@ public class SistemaPQRS {
             rs.close();
             pstmt.close();
             conn.close();
-        } catch (SQLException e) {
-            System.out.println("Error al iniciar sesión: " + e.getMessage());
+        } else {
+            System.out.println("La conexión a la base de datos es nula.");
         }
-
-        return datosUsuario;
+    } catch (SQLException e) {
+        System.out.println("Error al iniciar sesión: " + e.getMessage());
     }
+
+    return datosUsuario;
+}
 
 
 }

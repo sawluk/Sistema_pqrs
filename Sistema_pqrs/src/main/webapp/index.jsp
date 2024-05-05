@@ -200,6 +200,30 @@
                 color: #fff;
                 text-decoration: none;
             }
+            .enlace-subrayado {
+                text-decoration: underline;
+                font-size: 90%;
+            }
+            .modal fade .button {
+                width: 100%;
+                height: 100%;
+                padding: 10px 10px;
+                background: var(--primary); /* Utilizar la variable --primary */
+                color: #fff;
+                display: block;
+                border: none;
+                margin-top: 20px;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                max-height: 60px;
+                border: 0px solid rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 2px 2px;
+                transform: rotateZ(0deg);
+                transition: all 0.1s ease-out;
+                border-bottom-width: 7px;
+            }
+
         </style>
     </head>
     <body>
@@ -219,7 +243,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
                     <div>
-                        <p class="text-center"> <a href="#registroModal" data-toggle="modal">¿Aún no tienes cuenta? Créala!!!</a></p>
+                        <p class="text-center"> ¿Aún no tienes cuenta? <a href="#registroModal" data-toggle="modal" style="text-decoration: underline;">Registrate aquí </a></p>
                     </div>
                 </form>
             </div>
@@ -255,7 +279,7 @@
                                 <label for="contrasena">Contraseña:</label>
                                 <input type="password" class="form-control" id="contrasena" name="contrasena" required>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
+                            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
                         </form>
                     </div>
                 </div>

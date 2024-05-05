@@ -1,2 +1,7 @@
 com\mycompany\sistema_pqrs\resources\JavaEE8Resource.class
+com\mycompany\sistema_pqrs\Solicitud.class
+com\mycompany\sistema_pqrs\SistemaPQRS.class
+Servlets\SvRegistrar.class
+Servlets\SvSolicitud.class
 com\mycompany\sistema_pqrs\JAXRSConfiguration.class
+Servlets\SvLogin.class

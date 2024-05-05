@@ -54,7 +54,7 @@
                             <a class="nav-link" href="usuario.jsp">Inicio <span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="solicitud.jsp">Peticiones <span class="sr-only"></span></a>
+                            <a class="nav-link" href="solicitud.jsp">Mis solicitudes <span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item ml-auto"> <!-- Agrega la clase "ml-auto" para que este elemento se alinee a la derecha -->
                             <a class="nav-link" href="index.jsp">Cerrar sesión <span class="sr-only">(current)</span></a>

@@ -34,7 +34,7 @@ public class SvLogin extends HttpServlet {
     String contrasena = request.getParameter("contrasenia");
 
     // Llamar al método obtenerInformacionUsuario
-    String[] informacionUsuario = conectar.obtenerInformacionUsuario(cedula, contrasena);
+    String[] informacionUsuario = conectar.ingresar(cedula, contrasena);
     
     if (informacionUsuario != null) {
             // Si las credenciales son válidas, almacenar el id, rol y nombre en la sesión
