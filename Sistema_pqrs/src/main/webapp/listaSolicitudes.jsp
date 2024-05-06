@@ -21,94 +21,101 @@
 
 <section id="scroll">
     <div class="container px-5">
-        <div class="col-md-8">
-            <table id="tutorialesTable" class="table table-bordered table-dark">
-                <thead>
-                    <tr>
-                        <th>ID Solicitud</th>
-                        <th>Tipo solicitud</th>
-                        <th>Usuario</th>
-                        <th>Titulo</th>
-                        <th>Mensaje</th>
-                        <th>Archivo</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <table id="tutorialesTable" class="table table-bordered table-dark">
+                    <thead>
+                        <tr>
+                            <th>ID Solicitud</th>
+                            <th>Tipo solicitud</th>
+                            <th>Usuario</th>
+                            <th>Titulo</th>
+                            <th>Mensaje</th>
+                            <th>Archivo</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
 
-                        // Importar las clases necesarias y establecer la conexión a la base de datos
-                        PreparedStatement pstmt = null;
-                        SistemaPQRS conectar = new SistemaPQRS();
-                        Connection conn = null;
-                        PreparedStatement stmt = null;
-                        ResultSet rs = null;
+                            // Importar las clases necesarias y establecer la conexión a la base de datos
+                            PreparedStatement pstmt = null;
+                            SistemaPQRS conectar = new SistemaPQRS();
+                            Connection conn = null;
+                            PreparedStatement stmt = null;
+                            ResultSet rs = null;
 
-                        try {
-                            conn = conectar.establecerConexion();
-                            String sql = "SELECT IdSolicitud, Titulo, Mensaje, IdUsuario, IdTipoSolicitud, Fecha, ruta_archivo "
-                                            + "FROM solicitud ";
-
-                            pstmt = conn.prepareStatement(sql);
-                            rs = pstmt.executeQuery();
-
-                            // Iterar a través del conjunto de resultados y mostrar cada solicitud en la tabla
-                            while (rs.next()) {
-                                String idsolicitud = rs.getString("idSolicitud");
-                                String idtipo = rs.getString("idTipoSolicitud");
-                                String idusuario = rs.getString("idUsuario");
-                                String titulo = rs.getString("Titulo");
-                                String mensaje = rs.getString("Mensaje");
-                                String archivo = rs.getString("ruta_archivo");
-                                String fecha = rs.getString("Fecha");
-                    %>
-
-
-
-                    <tr>
-                        <td><%= idsolicitud%></td>
-                        <td><%= idtipo%></td>
-                        <td><%= idusuario%></td>
-                        <td><%= titulo%></td>
-                        <td><%= mensaje%></td>
-                        <td><%= archivo%></td>
-                        <td><%= fecha%></td>
-                        <td>
-                            <!-- Botones de edición y eliminación -->
-                            <div class="btn-group" role="group" aria-label="Acciones">
-                                <a href="#" class="btn btn-success btn-sm" title="Editar" onclick="">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                                <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <%
-                            }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } finally {
-                            // Cerrar recursos
                             try {
-                                if (rs != null) {
-                                    rs.close();
-                                }
-                                if (stmt != null) {
-                                    stmt.close();
-                                }
-                                if (conn != null) {
-                                    conn.close();
+                                conn = conectar.establecerConexion();
+                                String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo " +
+                                             "FROM Solicitud s " +
+                                             "INNER JOIN usuario u ON s.IdUsuario = u.Idusuario " +
+                                             "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud";
+
+                                pstmt = conn.prepareStatement(sql);
+                                rs = pstmt.executeQuery();
+
+                                // Iterar a través del conjunto de resultados y mostrar cada solicitud en la tabla
+                                while (rs.next()) {
+                                    String idsolicitud = rs.getString("IdSolicitud");
+                                    String nombreUsuario = rs.getString("NombreUsuario");
+                                    String tipoSolicitud = rs.getString("TipoSolicitud");
+                                    String titulo = rs.getString("Titulo");
+                                    String mensaje = rs.getString("Mensaje");
+                                    String archivo = rs.getString("ruta_archivo");
+                                    String fecha = rs.getString("Fecha");
+                        %>
+
+
+
+
+                        <tr>
+                            <td><%= idsolicitud %></td>
+                            <td><%= tipoSolicitud %></td> <!-- Utilizar la variable tipoSolicitud en lugar de idtipo -->
+                            <td><%= nombreUsuario %></td> <!-- Utilizar la variable nombreUsuario en lugar de idusuario -->
+                            <td><%= titulo %></td>
+                            <td><%= mensaje %></td>
+                            <td><%= archivo %></td>
+                            <td><%= fecha %></td>
+                            <td>
+                                <!-- Botones de edición y eliminación -->
+                                <div class="btn-group" role="group" aria-label="Acciones">
+                                    <a href="#" class="btn btn-success btn-sm" title="Editar" onclick="">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <%
                                 }
                             } catch (SQLException e) {
                                 e.printStackTrace();
+                            } finally {
+                                // Cerrar recursos
+                                try {
+                                    if (rs != null) {
+                                        rs.close();
+                                    }
+                                    if (stmt != null) {
+                                        stmt.close();
+                                    }
+                                    if (conn != null) {
+                                        conn.close();
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    %>
-                </tbody>
-            </table>
+                        %>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
 </section>

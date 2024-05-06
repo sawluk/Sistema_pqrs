@@ -36,6 +36,9 @@ CREATE TABLE Solicitud (
     FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+ALTER TABLE usuario
+MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
+
 DELIMITER //
 
 CREATE PROCEDURE InsertarSolicitud(
@@ -56,7 +59,7 @@ DELIMITER ;
 
 INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
 VALUES 
-('123456789', 'David', 'David@gmail.com', 'admin123', 'Admin'),
+('1086', 'David', 'David@gmail.com', '123', 'Admin'),
 ('87654321', 'Andres', 'Andres@gmail.com', 'admin123', 'Usuario');
 
 INSERT INTO tipoSolicitud (tipo) VALUES
@@ -65,6 +68,13 @@ INSERT INTO tipoSolicitud (tipo) VALUES
 ('Reclamo'),
 ('Sugerencia'),
 ('Felicitacion');
+
+INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, ruta_archivo)
+VALUES 
+    (2, 1, 'Consulta sobre el funcionamiento', 'Tengo una pregunta sobre cómo utilizar cierta funcionalidad del sistema.', NULL),
+    (2, 2, 'Queja sobre el servicio', 'He experimentado problemas con la lentitud del sistema.', NULL),
+    (2, 4, 'Sugerencia para mejorar la interfaz', 'Creo que sería útil agregar un botón de acceso rápido en la página principal.', NULL);
+
 
 -- Procedimiento de almacenado tabla usuario
 DELIMITER //
@@ -102,11 +112,7 @@ END //
 
 DELIMITER ;
 
-ALTER TABLE usuario
-MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
 
-ALTER TABLE Solicitud
-CHANGE COLUMN Archivo ruta_archivo VARCHAR(255);
 
 
 
