@@ -59,8 +59,9 @@ DELIMITER ;
 
 INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
 VALUES 
-('1086', 'David', 'David@gmail.com', '123', 'Admin'),
-('87654321', 'Andres', 'Andres@gmail.com', 'admin123', 'Usuario');
+('1086', 'Alejandro', 'Alejandro18@gmail.com', 'alejo123', 'Admin'),
+('876543', 'David', 'DavidN@gmail.com', 'david2024', 'Usuario'),
+('123456', 'Jorge', 'JorgeO@gmail.com', 'jorge456', 'Usuario');
 
 INSERT INTO tipoSolicitud (tipo) VALUES
 ('Pregunta'),
@@ -72,7 +73,7 @@ INSERT INTO tipoSolicitud (tipo) VALUES
 INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, ruta_archivo)
 VALUES 
     (2, 1, 'Consulta sobre el funcionamiento', 'Tengo una pregunta sobre cómo utilizar cierta funcionalidad del sistema.', NULL),
-    (2, 2, 'Queja sobre el servicio', 'He experimentado problemas con la lentitud del sistema.', NULL),
+    (3, 2, 'Queja sobre el servicio', 'He experimentado problemas con la lentitud del sistema.', NULL),
     (2, 4, 'Sugerencia para mejorar la interfaz', 'Creo que sería útil agregar un botón de acceso rápido en la página principal.', NULL);
 
 
@@ -111,6 +112,20 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELETE FROM usuario
+WHERE Idusuario = 1;
+
+DELETE FROM usuario
+WHERE Idusuario BETWEEN 1 AND 5;
+
+DELETE FROM usuario;
+DROP TABLE usuario;
+
+
+SET SQL_SAFE_UPDATES = 0;
+
+
 
 
 

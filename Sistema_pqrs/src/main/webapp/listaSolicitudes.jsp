@@ -51,7 +51,8 @@
                                 String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo " +
                                              "FROM Solicitud s " +
                                              "INNER JOIN usuario u ON s.IdUsuario = u.Idusuario " +
-                                             "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud";
+                                             "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud " +
+                                             "ORDER BY s.IdSolicitud ASC";
 
                                 pstmt = conn.prepareStatement(sql);
                                 rs = pstmt.executeQuery();

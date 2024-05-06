@@ -24,6 +24,14 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false); // Obtener la sesión actual sin crear una nueva si no existe
+
+        if (session != null) {
+            session.invalidate(); // Invalidar la sesión actual
+        }
+
+        // Redirigir a la página de inicio
+        response.sendRedirect("index.jsp");
         
     }
 

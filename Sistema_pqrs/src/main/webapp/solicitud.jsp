@@ -19,6 +19,7 @@
             position: fixed;
             bottom: 0;
             width: 100%;
+            height: 5%;
             z-index: 1000; /* Asegura que esté al frente de otros elementos */
             background-color: #000;
             color: #fff;
@@ -33,7 +34,7 @@
     <div class="masthead-content">
         <div class="container px-5">
             <h2> Tus solicitudes en un solo lugar</h2>
-            <h2>Un administrador las respondaran tan pronto como sea posible...</h2>
+            <h2>Un administrador las respondará tan pronto como sea posible...</h2>
         </div>
     </div>
     <div class="bg-circle-1 bg-circle" style="background-color: #64B5F6;"></div> <!-- Azul claro -->
@@ -44,10 +45,11 @@
 
 <!-- Content section 1-->
 <section id="scroll">
+    <h2 style=" text-align: center">Solicitudes enviadas</h2>
         <div class="row gx-5 align-items-center">
             <div class="container p-4 d-flex justify-content-center">
                 <div class="col-md-8">
-                    <table id="tutorialesTable" class="table table-bordered table-dark">
+                    <table id="solicitudesTable" class="table table-bordered table-dark">
                         <thead>
                             <tr>
                                 <th>Título</th>
@@ -66,7 +68,7 @@
                                 String idUsuarioS = (String) session.getAttribute("idUsuario");
                                 int idUsuario = Integer.parseInt(idUsuarioS);
 
-                    // Importar las clases necesarias y establecer la conexión a la base de datos
+                                // Importar las clases necesarias y establecer la conexión a la base de datos
                                 PreparedStatement pstmt = null;
                                 SistemaPQRS conectar = new SistemaPQRS();
                                 Connection conn = null;
@@ -146,6 +148,7 @@
             </div>
         </div>
 </section>
+</body>
 
 <!-- Footer-->
 <footer class="py-5 bg-black">
@@ -157,6 +160,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
-</body>
+
 
 </html>
