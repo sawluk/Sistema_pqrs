@@ -48,11 +48,11 @@
 
                             try {
                                 conn = conectar.establecerConexion();
-                                String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo " +
-                                             "FROM Solicitud s " +
-                                             "INNER JOIN usuario u ON s.IdUsuario = u.Idusuario " +
-                                             "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud " +
-                                             "ORDER BY s.IdSolicitud ASC";
+                                String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo "
+                                        + "FROM Solicitud s "
+                                        + "INNER JOIN usuario u ON s.IdUsuario = u.Idusuario "
+                                        + "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud "
+                                        + "ORDER BY s.IdSolicitud ASC";
 
                                 pstmt = conn.prepareStatement(sql);
                                 rs = pstmt.executeQuery();
@@ -72,21 +72,21 @@
 
 
                         <tr>
-                            <td><%= idsolicitud %></td>
-                            <td><%= tipoSolicitud %></td> <!-- Utilizar la variable tipoSolicitud en lugar de idtipo -->
-                            <td><%= nombreUsuario %></td> <!-- Utilizar la variable nombreUsuario en lugar de idusuario -->
-                            <td><%= titulo %></td>
-                            <td><%= mensaje %></td>
-                            <td><%= archivo %></td>
-                            <td><%= fecha %></td>
+                            <td><%= idsolicitud%></td>
+                            <td><%= tipoSolicitud%></td> <!-- Utilizar la variable tipoSolicitud en lugar de idtipo -->
+                            <td><%= nombreUsuario%></td> <!-- Utilizar la variable nombreUsuario en lugar de idusuario -->
+                            <td><%= titulo%></td>
+                            <td><%= mensaje%></td>
+                            <td><%= archivo%></td>
+                            <td><%= fecha%></td>
                             <td>
                                 <!-- Botones de edición y eliminación -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a href="#" class="btn btn-success btn-sm" title="Editar" onclick="">
-                                        <i class="fas fa-edit"></i> Editar
+                                    <a href="#" class="btn btn-success btn-sm" title="Ver" data-toggle="modal" data-target="#verModal">
+                                        <i class="fas fa-eye"></i> Ver
                                     </a>
-                                    <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="">
-                                        <i class="fas fa-trash"></i> Eliminar
+                                    <a href="#" class="btn btn-primary btn-sm" title="Responder solicitud" onclick="">
+                                        <i class="fas fa-reply"></i> Responder
                                     </a>
                                 </div>
                             </td>
@@ -118,5 +118,6 @@
             </div>
         </div>
     </div>
+
 
 </section>
