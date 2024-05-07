@@ -36,47 +36,6 @@ CREATE TABLE Solicitud (
     FOREIGN KEY (IdTipoSolicitud) REFERENCES tipoSolicitud(IdTipoSolicitud) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-ALTER TABLE usuario
-MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
-
-DELIMITER //
-
-CREATE PROCEDURE InsertarSolicitud(
-    IN p_idUsuario INT,
-    IN p_idtipoSolicitud INT,
-    IN p_titulo VARCHAR(255),
-    IN p_mensaje TEXT,
-    IN p_rutaArchivo VARCHAR(255),
-    IN p_fechaSolicitud DATETIME
-)
-BEGIN
-    -- Insertar una nueva solicitud con los parámetros proporcionados
-    INSERT INTO solicitud (IdUsuario, IdtipoSolicitud, Titulo, Mensaje, ruta_archivo, FechaSolicitud)
-    VALUES (p_idUsuario, p_idtipoSolicitud, p_titulo, p_mensaje, p_rutaArchivo, p_fechaSolicitud);
-END //
-
-DELIMITER ;
-
-INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
-VALUES 
-('1086', 'Alejandro', 'Alejandro18@gmail.com', 'alejo123', 'Admin'),
-('876543', 'David', 'DavidN@gmail.com', 'david2024', 'Usuario'),
-('123456', 'Jorge', 'JorgeO@gmail.com', 'jorge456', 'Usuario');
-
-INSERT INTO tipoSolicitud (tipo) VALUES
-('Pregunta'),
-('Queja'),
-('Reclamo'),
-('Sugerencia'),
-('Felicitacion');
-
-INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, ruta_archivo)
-VALUES 
-    (2, 1, 'Consulta sobre el funcionamiento', 'Tengo una pregunta sobre cómo utilizar cierta funcionalidad del sistema.', NULL),
-    (3, 2, 'Queja sobre el servicio', 'He experimentado problemas con la lentitud del sistema.', NULL),
-    (2, 4, 'Sugerencia para mejorar la interfaz', 'Creo que sería útil agregar un botón de acceso rápido en la página principal.', NULL);
-
-
 -- Procedimiento de almacenado tabla usuario
 DELIMITER //
 CREATE PROCEDURE RegistrarUsuario(
@@ -112,6 +71,87 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE InsertarSolicitud(
+    IN p_idUsuario INT,
+    IN p_idtipoSolicitud INT,
+    IN p_titulo VARCHAR(255),
+    IN p_mensaje TEXT,
+    IN p_rutaArchivo VARCHAR(255),
+    IN p_fechaSolicitud DATETIME
+)
+BEGIN
+    -- Insertar una nueva solicitud con los parámetros proporcionados
+    INSERT INTO solicitud (IdUsuario, IdtipoSolicitud, Titulo, Mensaje, ruta_archivo, FechaSolicitud)
+    VALUES (p_idUsuario, p_idtipoSolicitud, p_titulo, p_mensaje, p_rutaArchivo, p_fechaSolicitud);
+END //
+
+DELIMITER ;
+
+-- Procedimiento para editar las solicitudes
+
+DELIMITER //
+
+CREATE PROCEDURE EditarSolicitud(
+    IN p_IdSolicitud INT,
+    IN p_Titulo VARCHAR(100),
+    IN p_Mensaje TEXT,
+    IN p_RutaArchivo VARCHAR(255),
+    IN p_Estado ENUM('Sin revisar', 'Revisado'),
+    IN p_Respuesta TEXT
+)
+BEGIN
+    UPDATE Solicitud
+    SET
+        Titulo = p_Titulo,
+        Mensaje = p_Mensaje,
+        ruta_archivo = p_RutaArchivo,
+        Estado = p_Estado,
+        Respuesta = p_Respuesta
+    WHERE
+        IdSolicitud = p_IdSolicitud;
+END //
+
+DELIMITER ;
+
+
+INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
+VALUES 
+('1086', 'Alejandro', 'Alejandro18@gmail.com', 'alejo123', 'Admin'),
+('876543', 'David', 'DavidN@gmail.com', 'david2024', 'Usuario'),
+('123456', 'Jorge', 'JorgeO@gmail.com', 'jorge456', 'Usuario');
+
+INSERT INTO tipoSolicitud (tipo) VALUES
+('Pregunta'),
+('Queja'),
+('Reclamo'),
+('Sugerencia'),
+('Felicitacion');
+
+INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, ruta_archivo)
+VALUES 
+    (2, 1, 'Consulta sobre el funcionamiento', 'Tengo una pregunta sobre cómo utilizar cierta funcionalidad del sistema.', NULL),
+    (3, 2, 'Queja sobre el servicio', 'He experimentado problemas con la lentitud del sistema.', NULL),
+    (2, 4, 'Sugerencia para mejorar la interfaz', 'Creo que sería útil agregar un botón de acceso rápido en la página principal.', NULL);
+
+
+-- procedimiento para Eliminar una solicitud
+DELIMITER //
+
+CREATE PROCEDURE EliminarSolicitud(
+    IN p_IdSolicitud INT
+)
+BEGIN
+    DELETE FROM Solicitud
+    WHERE IdSolicitud = p_IdSolicitud;
+END //
+
+DELIMITER ;
+
+ALTER TABLE usuario
+MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
 
 DELETE FROM usuario
 WHERE Idusuario = 1;

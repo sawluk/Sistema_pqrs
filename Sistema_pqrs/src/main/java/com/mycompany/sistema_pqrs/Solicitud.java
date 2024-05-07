@@ -57,5 +57,77 @@ public class Solicitud {
             }
         }
     }
+    
+    public static void editarSolicitud(int p_IdSolicitud, String p_Titulo, String p_Mensaje, String p_RutaArchivo, String p_Estado, String p_Respuesta) {
+        SistemaPQRS conectar = new SistemaPQRS();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = conectar.establecerConexion();
+
+            // Llamada al procedimiento almacenado
+            String sql = "{CALL EditarSolicitud(?, ?, ?, ?, ?, ?)}";
+            stmt = conn.prepareCall(sql);
+            stmt.setInt(1, p_IdSolicitud);
+            stmt.setString(2, p_Titulo);
+            stmt.setString(3, p_Mensaje);
+            stmt.setString(4, p_RutaArchivo);
+            stmt.setString(5, p_Estado);
+            stmt.setString(6, p_Respuesta);
+            stmt.execute();
+
+            System.out.println("Solicitud editada correctamente.");
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+    
+    public static void eliminarSolicitud(int p_IdSolicitud) {
+        SistemaPQRS conectar = new SistemaPQRS();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            
+            conn = conectar.establecerConexion();
+
+            // Llamada al procedimiento almacenado
+            String sql = "{CALL EliminarSolicitud(?)}";
+            stmt = conn.prepareCall(sql);
+            stmt.setInt(1, p_IdSolicitud);
+            stmt.execute();
+
+            System.out.println("Solicitud eliminada correctamente.");
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
 
 }
