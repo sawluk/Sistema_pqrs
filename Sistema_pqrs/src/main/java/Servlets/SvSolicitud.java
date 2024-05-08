@@ -31,8 +31,6 @@ import javax.servlet.http.Part;
         maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class SvSolicitud extends HttpServlet {
 
-    Solicitud p = new Solicitud();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

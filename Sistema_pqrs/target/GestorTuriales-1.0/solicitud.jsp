@@ -106,8 +106,8 @@
                             <td><%= titulo %></td>
                             <td><%= tipoSolicitud %></td>
                             <td><%= mensaje %></td>
-                            <td><% if (archivo != null) {%>
-                                    <a href="archivos/<%= archivo%>" target="_blank" class="btn btn-primary">
+                            <td><% if (archivo != null) { %>
+                                    <a href="archivos/<%= archivo %>" target="_blank" class="btn btn-primary">
                                         <i class="fas fa-file-download"></i> Abrir PDF
                                     </a>
                                     <% } else { %>
@@ -115,7 +115,7 @@
                                     <button class="btn btn-primary" disabled>
                                         <i class="fas fa-file-download"></i> Abrir PDF
                                     </button>
-                                    <% }%></td>
+                                    <% } %></td>
                             <td><%= fechaSolicitud %></td>
                             <td><%= estado %></td>
                             <td><%= respuesta %></td>
