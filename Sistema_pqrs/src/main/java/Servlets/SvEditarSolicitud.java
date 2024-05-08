@@ -5,9 +5,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
 
  */
-
 package Servlets;
-
 
 import com.mycompany.sistema_pqrs.Solicitud;
 import java.io.File;
@@ -29,15 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-
 /**
-
  *
-
+ *
+ *
  * @author Acer
-
+ *
  */
-
 @WebServlet(name = "SvEditarSolicitud", urlPatterns = {"/SvEditarSolicitud"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
@@ -45,28 +41,25 @@ import javax.servlet.http.Part;
 
 public class SvEditarSolicitud extends HttpServlet {
 
-
     @Override
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
 
         int idSolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
-        
+
         int p_TipoSolicitud = Integer.parseInt(request.getParameter("tipoSolicitud"));
 
         String titulo = request.getParameter("titulo");
 
         String mensaje = request.getParameter("mensaje");
 
-
         String estado = request.getParameter("estado");
 
         String respuesta = request.getParameter("respuesta");
 
         int tipoSolicitud = Integer.parseInt(request.getParameter("tipoSolicitud"));
-        
+
         // Verificar si se ha adjuntado un nuevo archivo
         Part filePart = request.getPart("archivo");
         String rutaArchivo = null;
@@ -92,15 +85,8 @@ public class SvEditarSolicitud extends HttpServlet {
             rutaArchivo = request.getParameter("rutaArchivoAnterior");
         }
 
-        // Llamar a la función editarSolicitud
-       Solicitud.editarSolicitud(idSolicitud, titulo, mensaje, rutaArchivo, estado, respuesta, p_TipoSolicitud);
-
-        // Redirigir a la página de inicio o mostrar un mensaje de éxito
-        response.sendRedirect("MisSolicitudes.jsp"); // o mostrar un mensaje de éxito
-
-
+       
         Solicitud.editarSolicitud(idSolicitud, titulo, mensaje, rutaArchivo, estado, respuesta, tipoSolicitud);
-
 
         response.sendRedirect("solicitud.jsp"); // Redirect to the index page after editing the solicitud
 

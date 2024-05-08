@@ -1,6 +1,6 @@
 <%-- 
     Document   : peticiones
-    Created on : 2/05/2024, 5:27:48 p.ï¿½m.
+    Created on : 2/05/2024, 5:27:48 p.?m.
     Author     : Acer
 --%>
 
@@ -22,7 +22,7 @@
         bottom: 0;
         width: 100%;
         height: 5%;
-        z-index: 1000; /* Asegura que estï¿½ al frente de otros elementos */
+        z-index: 1000; /* Asegura que est? al frente de otros elementos */
         background-color: #000;
         color: #fff;
         text-align: center;
@@ -41,8 +41,8 @@
     </div>
     <div class="bg-circle-1 bg-circle" style="background-color: #64B5F6;"></div> <!-- Azul claro -->
     <div class="bg-circle-2 bg-circle" style="background-color: #1976D2;"></div> <!-- Azul oscuro -->
-    <div class="bg-circle-3 bg-circle" style="background-color: #1565C0;"></div> <!-- Azul mï¿½s oscuro -->
-    <div class="bg-circle-4 bg-circle" style="background-color: #0D47A1;"></div> <!-- Azul aï¿½n mï¿½s oscuro -->
+    <div class="bg-circle-3 bg-circle" style="background-color: #1565C0;"></div> <!-- Azul m?s oscuro -->
+    <div class="bg-circle-4 bg-circle" style="background-color: #0D47A1;"></div> <!-- Azul a?n m?s oscuro -->
 </header>
 
 <!-- Content section 1-->
@@ -66,11 +66,11 @@
                     </thead>
                     <tbody>
                         <% 
-                          // Obtener el ID de usuario de la sesiï¿½n
+                          // Obtener el ID de usuario de la sesi?n
                           String idUsuarioS = (String) session.getAttribute("idUsuario");
                           int idUsuario = Integer.parseInt(idUsuarioS);
 
-                          // Importar las clases necesarias y establecer la conexiï¿½n a la base de datos
+                          // Importar las clases necesarias y establecer la conexi?n a la base de datos
                           PreparedStatement pstmt = null;
                           SistemaPQRS conectar = new SistemaPQRS();
                           Connection conn = null;
@@ -90,7 +90,7 @@
                               pstmt.setInt(1, idUsuario);
                               rs = pstmt.executeQuery();
 
-                              // Iterar a travï¿½s del conjunto de resultados y mostrar cada solicitud en la tabla
+                              // Iterar a trav?s del conjunto de resultados y mostrar cada solicitud en la tabla
                               while (rs.next()) {
                                   int idSolicitud = rs.getInt("IdSolicitud");
                                   String titulo = rs.getString("Titulo");
@@ -111,16 +111,17 @@
                                         <i class="fas fa-file-download"></i> Abrir PDF
                                     </a>
                                     <% } else { %>
-                                    <!-- BotÃ³n deshabilitado si archivo es null -->
+                                    <!-- Botón deshabilitado si archivo es null -->
                                     <button class="btn btn-primary" disabled>
                                         <i class="fas fa-file-download"></i> Abrir PDF
                                     </button>
-                                    <% } %></td>
+                                    <% } %>
+                            </td>
                             <td><%= fechaSolicitud %></td>
                             <td><%= estado %></td>
                             <td><%= respuesta %></td>
                             <td>
-                                <!-- Botones de ediciï¿½n y eliminaciï¿½n -->
+                                <!-- Botones de edici?n y eliminaci?n -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" title="Editar"
                                        data-idsolicitud="<%= idSolicitud %>"
@@ -168,6 +169,7 @@
             </div>
         </div>
     </div>
+                        
 <!-- Modal para editar solicitudes -->
     <div class="modal fade modal-dark" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
         <div class="modal-dialog">
@@ -177,14 +179,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="SvEditarSolicitud" method="POST" id="editForm">
+                    <form action="SvEditarSolicitud" method="POST" id="editForm" enctype="multipart/form-data">
                         <div class="mb-3" hidden>
                             <label for="idSolicitud" class="col-form-label">ID Solicitud:</label>
                             <input type="text" class="form-control" id="idSolicitud" name="idSolicitud" placeholder="ID de la solicitud" readonly required>
                         </div>
                         <div class="mb-3">
                             <label for="titulo" class="col-form-label">Titulo:</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Tï¿½tulo de la solicitud" required>
+                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="T?tulo de la solicitud" required>
                         </div>
                         <div class="mb-3">
                             <label for="tipoSolicitud" class="col-form-label">Tipo de Solicitud:</label>
@@ -208,7 +210,7 @@
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     } finally {
-                                        // Cierra la conexiï¿½n y los recursos
+                                        // Cierra la conexi?n y los recursos
                                         try {
                                             if (rs != null) {
                                                 rs.close();
@@ -260,39 +262,39 @@
 
     <script>
         $('#editModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var idSolicitud = button.data('idsolicitud');
-            var titulo = button.data('titulo');
-            var tipoSolicitud = button.data('tiposolicitud');
-            var mensaje = button.data('mensaje');
-            var fecha = button.data('fecha');
-            var archivo = button.data('archivo');
-            var respuesta = button.data('respuesta');
-            var estado = button.data('estado');
+    var button = $(event.relatedTarget);
+    var idSolicitud = button.data('idsolicitud');
+    var titulo = button.data('titulo');
+    var tipoSolicitud = button.data('tiposolicitud');
+    var mensaje = button.data('mensaje');
+    var fecha = button.data('fecha');
+    var archivo = button.data('archivo');
+    var respuesta = button.data('respuesta');
+    var estado = button.data('estado');
 
-            // Establecer valores en los campos del formulario
-            var modal = $(this);
-            modal.find('#idSolicitud').val(idSolicitud);
-            modal.find('#titulo').val(titulo);
-            modal.find('#mensaje').val(mensaje);
-            modal.find('#fecha').val(fecha);
-            modal.find('#archivo').val(archivo);
-            modal.find('#respuesta').val(respuesta);
-            modal.find('#estado').val(estado);
+    // Establecer valores en los campos del formulario
+    var modal = $(this);
+    modal.find('#idSolicitud').val(idSolicitud);
+    modal.find('#titulo').val(titulo);
+    modal.find('#mensaje').val(mensaje);
+    modal.find('#fecha').val(fecha);
+    modal.find('#archivo_nombre').val(archivo);
+    modal.find('#respuesta').val(respuesta);
+    modal.find('#estado').val(estado);
 
-            // Establecer el tipo de solicitud actual como seleccionado
-            modal.find('#tipoSolicitud option').each(function () {
-                if ($(this).text() === tipoSolicitud) {
-                    $(this).prop('selected', true);
-                }
-            });
-        });
+    // Establecer el tipo de solicitud actual como seleccionado
+    modal.find('#tipoSolicitud option').each(function () {
+        if ($(this).text() === tipoSolicitud) {
+            $(this).prop('selected', true);
+        }
+    });
+});
     </script>
 
 
     <script>
         function confirmarEliminacion(idSolicitud) {
-            if (confirm("ï¿½Estï¿½ seguro de querer borrar esta solicitud suya?")) {
+            if (confirm("?Est? seguro de querer borrar esta solicitud suya?")) {
                 window.location.href = "SvSolicitud?id=" + idSolicitud;
             }
         }
@@ -304,7 +306,7 @@
 <!-- Footer-->
 <footer class="py-5 bg-black">
     <div class="container px-5">
-        <p class="m-0 text-center text-white small">Copyright &copy; Boostrap Wonder Pages/ Editado por Samuel Bolaï¿½os y Portilla</p>
+        <p class="m-0 text-center text-white small">Copyright &copy; Boostrap Wonder Pages/ Editado por Samuel Bola?os y Portilla</p>
     </div>
 </footer>
 <!-- Bootstrap core JS-->

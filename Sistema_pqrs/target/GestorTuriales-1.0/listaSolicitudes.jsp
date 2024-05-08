@@ -77,7 +77,17 @@
                             <td><%= nombreUsuario%></td> <!-- Utilizar la variable nombreUsuario en lugar de idusuario -->
                             <td><%= titulo%></td>
                             <td><%= mensaje%></td>
-                            <td><%= archivo%></td>
+                            <td><% if (archivo != null) { %>
+                                    <a href="archivos/<%= archivo %>" target="_blank" class="btn btn-primary">
+                                        <i class="fas fa-file-download"></i> Abrir PDF
+                                    </a>
+                                    <% } else { %>
+                                    <!-- Botón deshabilitado si archivo es null -->
+                                    <button class="btn btn-primary" disabled>
+                                        <i class="fas fa-file-download"></i> Abrir PDF
+                                    </button>
+                                    <% } %>
+                            </td>
                             <td><%= fecha%></td>
                             <td>
                                 <!-- Botones de edición y eliminación -->
