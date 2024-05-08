@@ -36,7 +36,7 @@
     <div class="masthead-content">
         <div class="container px-5">
             <h2> Tus solicitudes en un solo lugar</h2>
-            <h2>Un administrador las respondar� tan pronto como sea posible...</h2>
+            <h2>Un administrador las respondera tan pronto como sea posible...</h2>
         </div>
     </div>
     <div class="bg-circle-1 bg-circle" style="background-color: #64B5F6;"></div> <!-- Azul claro -->
@@ -54,7 +54,7 @@
                 <table id="solicitudesTable" class="table table-bordered table-dark">
                     <thead>
                         <tr>
-                            <th>T�tulo</th>
+                            <th>Titulo</th>
                             <th>Tipo</th>
                             <th>Mensaje</th>
                             <th>Archivo</th>
@@ -84,7 +84,7 @@
                               String sql = "SELECT IdSolicitud, Titulo, Mensaje, tipo, Fecha, ruta_archivo, Respuesta, Estado "
                                       + "FROM solicitud "
                                       + "INNER JOIN tiposolicitud ON solicitud.IdTipoSolicitud = tiposolicitud.IdTipoSolicitud "
-                                      + "WHERE IdUsuario = ? ORDER BY Fecha DESC";
+                                      + "WHERE IdUsuario = ? ORDER BY Fecha ASC";
 
                               pstmt = conn.prepareStatement(sql);
                               pstmt.setInt(1, idUsuario);
@@ -106,7 +106,16 @@
                             <td><%= titulo %></td>
                             <td><%= tipoSolicitud %></td>
                             <td><%= mensaje %></td>
-                            <td><%= archivo %></td>
+                            <td><% if (archivo != null) {%>
+                                    <a href="archivos/<%= archivo%>" target="_blank" class="btn btn-primary">
+                                        <i class="fas fa-file-download"></i> Abrir PDF
+                                    </a>
+                                    <% } else { %>
+                                    <!-- Botón deshabilitado si archivo es null -->
+                                    <button class="btn btn-primary" disabled>
+                                        <i class="fas fa-file-download"></i> Abrir PDF
+                                    </button>
+                                    <% }%></td>
                             <td><%= fechaSolicitud %></td>
                             <td><%= estado %></td>
                             <td><%= respuesta %></td>
@@ -164,7 +173,7 @@
         <div class="modal-dialog">
             <div class="modal-content bg-dark text-light">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edici�n de Solicitud</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edicion de Solicitud</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -174,7 +183,7 @@
                             <input type="text" class="form-control" id="idSolicitud" name="idSolicitud" placeholder="ID de la solicitud" readonly required>
                         </div>
                         <div class="mb-3">
-                            <label for="titulo" class="col-form-label">T�tulo:</label>
+                            <label for="titulo" class="col-form-label">Titulo:</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" placeholder="T�tulo de la solicitud" required>
                         </div>
                         <div class="mb-3">
@@ -225,10 +234,12 @@
                             <label for="fecha" class="col-form-label">Fecha:</label>
                             <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha de la solicitud" readonly required>
                         </div>
-                        <div class="mb-3" hidden>
-                            <label for="archivo" class="col-form-label">Archivo:</label>
-                            <input type="text" class="form-control" id="archivo" name="archivo" placeholder="Ruta del archivo" readonly required>
-                        </div>
+                        <div class="mb-3">
+                                <label for="archivo" class="col-form-label">Archivo:</label>
+                                <input type="text" class="form-control" id="archivo_nombre" readonly>
+                                <input type="file" class="form-control" id="archivo" name="archivo">
+                                <small class="text-muted">Si desea cambiar el archivo, seleccione uno nuevo.</small>
+                            </div>
                         <div class="mb-3" hidden>
                             <label for="respuesta" class="col-form-label">Respuesta:</label>
                             <textarea class="form-control" id="respuesta" name="respuesta" rows="3" readonly></textarea>

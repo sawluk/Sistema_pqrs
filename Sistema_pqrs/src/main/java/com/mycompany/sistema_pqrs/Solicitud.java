@@ -18,7 +18,7 @@ import javax.servlet.http.Part;
  */
 public class Solicitud {
 
-    public static void crearSolicitud(int p_IdUsuario, int p_IdTipoSolicitud, String p_Titulo, String p_Mensaje, String p_RutaArchivo, LocalDateTime p_FechaSolicitud) {
+    public static void crearSolicitud(int p_IdUsuario, int p_IdTipoSolicitud, String p_Titulo, String p_Mensaje, String pdf, LocalDateTime p_FechaSolicitud) {
         SistemaPQRS conectar = new SistemaPQRS();
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -38,7 +38,7 @@ public class Solicitud {
             pstmt.setInt(2, p_IdTipoSolicitud);
             pstmt.setString(3, p_Titulo);
             pstmt.setString(4, p_Mensaje);
-            pstmt.setString(5, p_RutaArchivo);
+            pstmt.setString(5, pdf);
 
             // Ejecutar la consulta
             pstmt.executeUpdate();

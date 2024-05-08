@@ -33,7 +33,7 @@
                     <div class="container">
 
                         <h2>Formulario PQRS</h2>
-                        <form action="SvSolicitud" method="post" role="form">
+                        <form action="SvSolicitud" method="post" role="form" enctype="multipart/form-data">
 
                             <!-- Campo de título de la solicitud -->
                             <div class="form-group mt-3">
@@ -89,7 +89,7 @@
                             </div>
                             <!-- Campo de mensaje de la solicitud -->
                             <div class="form-group mt-3">
-                                <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje de la Solicitud" required></textarea>
+                                <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje de la Solicitud"></textarea>
                             </div>
 
                             <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
@@ -118,7 +118,8 @@
     </div>
 </section>
                             
-                            <div class="modal fade modal-dark" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+                            
+  <div class="modal fade modal-dark" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
@@ -126,7 +127,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="editForm">
+        <form id="editForm" enctype="multipart/form-data">
           <div class="mb-3" hidden>
             <label for="idSolicitud" class="col-form-label">ID Solicitud:</label>
             <input type="text" class="form-control" id="idSolicitud" name="idSolicitud" placeholder="ID de la solicitud" readonly required>
