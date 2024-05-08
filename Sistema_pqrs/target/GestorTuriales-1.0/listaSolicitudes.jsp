@@ -82,10 +82,7 @@
                             <td>
                                 <!-- Botones de edición y eliminación -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a href="#" class="btn btn-success btn-sm" title="Ver" data-toggle="modal" data-target="#verModal">
-                                        <i class="fas fa-eye"></i> Ver
-                                    </a>
-                                    <a href="#" class="btn btn-primary btn-sm" title="Responder solicitud" onclick="">
+                                    <a href="#" class="btn btn-primary btn-sm" title="Responder solicitud" data-toggle="modal" data-target="#modalRespuesta" onclick="abrirModalRespuesta()">
                                         <i class="fas fa-reply"></i> Responder
                                     </a>
                                 </div>
@@ -119,5 +116,36 @@
         </div>
     </div>
 
+    <!-- Ventana modal para el formulario de respuesta -->
+<div class="modal fade" id="modalRespuesta" tabindex="-1" role="dialog" aria-labelledby="modalRespuestaLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRespuestaLabel">Responder solicitud</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="SvRespuesta" method="POST" id="formularioRespuesta">
+                    <div class="form-group">
+                        <label for="respuesta">Respuesta:</label>
+                        <textarea class="form-control" id="respuesta" name="respuesta" rows="4" cols="50"></textarea>
+                    </div>
+                    <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
+                            <input type="hidden" name="idUsuario" value="<%= session.getAttribute("idSolicitud")%>">
+                    <!-- Botón de enviar dentro del formulario -->
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        function abrirModalRespuesta() {
+            $('#modalRespuesta').modal('show');
+        }
+
+    </script>
 
 </section>

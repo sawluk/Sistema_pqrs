@@ -157,4 +157,33 @@ public class Solicitud {
         }
     }
 
+    public static void actualizarSolicitud(int idSolicitud, String respuesta) {
+        // Configura la conexión con la base de datos
+        SistemaPQRS conectar = new SistemaPQRS();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = conectar.establecerConexion();
+            
+            // Llama al procedimiento almacenado
+            String sql = "{call actualizarSolicitud(?, ?)}";
+            pstmt = conn.prepareCall(sql);
+            pstmt.setInt(1, idSolicitud);
+            pstmt.setString(2, respuesta);
+            pstmt.execute();
+            
+            System.out.println("Solicitud actualizada correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cierra la conexión y libera los recursos
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

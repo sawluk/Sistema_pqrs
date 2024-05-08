@@ -152,6 +152,18 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE Respuesta(
+    IN p_IdSolicitud INT,
+    IN p_Respuesta TEXT
+)
+BEGIN
+    UPDATE Solicitud 
+    SET Estado = 'Revisado', Respuesta = p_Respuesta
+    WHERE IdSolicitud = p_IdSolicitud;
+END; //
+DELIMITER ;
+
 ALTER TABLE usuario
 MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
 

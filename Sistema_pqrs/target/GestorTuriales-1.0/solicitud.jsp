@@ -1,6 +1,6 @@
 <%-- 
     Document   : peticiones
-    Created on : 2/05/2024, 5:27:48 p. m.
+    Created on : 2/05/2024, 5:27:48 p.ï¿½m.
     Author     : Acer
 --%>
 
@@ -22,7 +22,7 @@
         bottom: 0;
         width: 100%;
         height: 5%;
-        z-index: 1000; /* Asegura que esté al frente de otros elementos */
+        z-index: 1000; /* Asegura que estï¿½ al frente de otros elementos */
         background-color: #000;
         color: #fff;
         text-align: center;
@@ -36,13 +36,13 @@
     <div class="masthead-content">
         <div class="container px-5">
             <h2> Tus solicitudes en un solo lugar</h2>
-            <h2>Un administrador las respondará tan pronto como sea posible...</h2>
+            <h2>Un administrador las respondarï¿½ tan pronto como sea posible...</h2>
         </div>
     </div>
     <div class="bg-circle-1 bg-circle" style="background-color: #64B5F6;"></div> <!-- Azul claro -->
     <div class="bg-circle-2 bg-circle" style="background-color: #1976D2;"></div> <!-- Azul oscuro -->
-    <div class="bg-circle-3 bg-circle" style="background-color: #1565C0;"></div> <!-- Azul más oscuro -->
-    <div class="bg-circle-4 bg-circle" style="background-color: #0D47A1;"></div> <!-- Azul aún más oscuro -->
+    <div class="bg-circle-3 bg-circle" style="background-color: #1565C0;"></div> <!-- Azul mï¿½s oscuro -->
+    <div class="bg-circle-4 bg-circle" style="background-color: #0D47A1;"></div> <!-- Azul aï¿½n mï¿½s oscuro -->
 </header>
 
 <!-- Content section 1-->
@@ -54,7 +54,7 @@
                 <table id="solicitudesTable" class="table table-bordered table-dark">
                     <thead>
                         <tr>
-                            <th>Título</th>
+                            <th>Tï¿½tulo</th>
                             <th>Tipo</th>
                             <th>Mensaje</th>
                             <th>Archivo</th>
@@ -66,11 +66,11 @@
                     </thead>
                     <tbody>
                         <% 
-                          // Obtener el ID de usuario de la sesión
+                          // Obtener el ID de usuario de la sesiï¿½n
                           String idUsuarioS = (String) session.getAttribute("idUsuario");
                           int idUsuario = Integer.parseInt(idUsuarioS);
 
-                          // Importar las clases necesarias y establecer la conexión a la base de datos
+                          // Importar las clases necesarias y establecer la conexiï¿½n a la base de datos
                           PreparedStatement pstmt = null;
                           SistemaPQRS conectar = new SistemaPQRS();
                           Connection conn = null;
@@ -90,7 +90,7 @@
                               pstmt.setInt(1, idUsuario);
                               rs = pstmt.executeQuery();
 
-                              // Iterar a través del conjunto de resultados y mostrar cada solicitud en la tabla
+                              // Iterar a travï¿½s del conjunto de resultados y mostrar cada solicitud en la tabla
                               while (rs.next()) {
                                   int idSolicitud = rs.getInt("IdSolicitud");
                                   String titulo = rs.getString("Titulo");
@@ -111,7 +111,7 @@
                             <td><%= estado %></td>
                             <td><%= respuesta %></td>
                             <td>
-                                <!-- Botones de edición y eliminación -->
+                                <!-- Botones de ediciï¿½n y eliminaciï¿½n -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" title="Editar"
                                        data-idsolicitud="<%= idSolicitud %>"
@@ -159,12 +159,12 @@
             </div>
         </div>
     </div>
-
+<!-- Modal para editar solicitudes -->
     <div class="modal fade modal-dark" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content bg-dark text-light">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edición de Solicitud</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ediciï¿½n de Solicitud</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -174,8 +174,8 @@
                             <input type="text" class="form-control" id="idSolicitud" name="idSolicitud" placeholder="ID de la solicitud" readonly required>
                         </div>
                         <div class="mb-3">
-                            <label for="titulo" class="col-form-label">Título:</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título de la solicitud" required>
+                            <label for="titulo" class="col-form-label">Tï¿½tulo:</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Tï¿½tulo de la solicitud" required>
                         </div>
                         <div class="mb-3">
                             <label for="tipoSolicitud" class="col-form-label">Tipo de Solicitud:</label>
@@ -199,7 +199,7 @@
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     } finally {
-                                        // Cierra la conexión y los recursos
+                                        // Cierra la conexiï¿½n y los recursos
                                         try {
                                             if (rs != null) {
                                                 rs.close();
@@ -281,7 +281,7 @@
 
     <script>
         function confirmarEliminacion(idSolicitud) {
-            if (confirm("¿Está seguro de querer borrar esta solicitud suya?")) {
+            if (confirm("ï¿½Estï¿½ seguro de querer borrar esta solicitud suya?")) {
                 window.location.href = "SvSolicitud?id=" + idSolicitud;
             }
         }
@@ -293,7 +293,7 @@
 <!-- Footer-->
 <footer class="py-5 bg-black">
     <div class="container px-5">
-        <p class="m-0 text-center text-white small">Copyright &copy; Boostrap Wonder Pages/ Editado por Samuel Bolaños y Portilla</p>
+        <p class="m-0 text-center text-white small">Copyright &copy; Boostrap Wonder Pages/ Editado por Samuel Bolaï¿½os y Portilla</p>
     </div>
 </footer>
 <!-- Bootstrap core JS-->
