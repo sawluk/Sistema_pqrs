@@ -170,6 +170,8 @@ MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
 
 SET SQL_SAFE_UPDATES = 0;
 
+DELETE FROM solicitud;
+
 
 
 
