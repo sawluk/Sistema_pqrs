@@ -4,13 +4,14 @@
  */
 package com.mycompany.SistemaPQRS;
 
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import javax.servlet.http.Part;
 
 /**
@@ -166,22 +167,26 @@ public class Solicitud {
 
         try {
             conn = conectar.establecerConexion();
-            
+
             // Llama al procedimiento almacenado
             String sql = "{call actualizarSolicitud(?, ?)}";
             pstmt = conn.prepareCall(sql);
             pstmt.setInt(1, idSolicitud);
             pstmt.setString(2, respuesta);
             pstmt.execute();
-            
+
             System.out.println("Solicitud actualizada correctamente.");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // Cierra la conexión y libera los recursos
             try {
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
