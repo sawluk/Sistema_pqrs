@@ -118,62 +118,7 @@
     </div>
 </section>
                             
-                            
-  <div class="modal fade modal-dark" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content bg-dark text-light">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edición de Solicitud</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editForm" enctype="multipart/form-data">
-          <div class="mb-3" hidden>
-            <label for="idSolicitud" class="col-form-label">ID Solicitud:</label>
-            <input type="text" class="form-control" id="idSolicitud" name="idSolicitud" placeholder="ID de la solicitud" readonly required>
-          </div>
-          <div class="mb-3">
-            <label for="titulo" class="col-form-label">Título:</label>
-            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título de la solicitud" required>
-          </div>
-          <div class="mb-3">
-            <label for="tipoSolicitud" class="col-form-label">Tipo de Solicitud:</label>
-            <select class="form-control" name="tipoSolicitud" id="tipoSolicitud" required>
-              <option value="" selected disabled>Seleccionar Tipo de Solicitud</option>
-              </select>
-          </div>
-          <div class="mb-3">
-            <label for="mensaje" class="col-form-label">Mensaje:</label>
-            <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
-          </div>
-          <div class="mb-3" hidden>
-            <label for="fecha" class="col-form-label">Fecha:</label>
-            <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha de la solicitud" readonly required>
-          </div>
-          <div class="mb-3" hidden>
-            <label for="archivo" class="col-form-label">Archivo:</label>
-            <input type="text" class="form-control" id="archivo" name="archivo" placeholder="Ruta del archivo" readonly required>
-          </div>
-          <div class="mb-3" hidden>
-            <label for="respuesta" class="col-form-label">Respuesta:</label>
-            <textarea class="form-control" id="respuesta" name="respuesta" rows="3" readonly></textarea>
-          </div>
-          <div class="mb-3" hidden>
-            <label for="estado" class="col-form-label">Estado:</label>
-            <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado de la solicitud" readonly required>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-                            
-
-                            
+                  
                             
 </body>
 
