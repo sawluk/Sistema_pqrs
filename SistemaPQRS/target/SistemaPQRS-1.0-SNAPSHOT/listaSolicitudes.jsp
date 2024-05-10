@@ -90,7 +90,7 @@
                             </td>
                             <td><%= fecha%></td>
                             <td>
-                                <!-- Botones de edición y eliminación -->
+                                <!-- Botones de responder -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="#" class="btn btn-primary btn-sm" title="Responder solicitud" data-toggle="modal" data-target="#modalRespuesta" onclick="abrirModalRespuesta()">
                                         <i class="fas fa-reply"></i> Responder
@@ -143,7 +143,7 @@
                         <textarea class="form-control" id="respuesta" name="respuesta" rows="4" cols="50"></textarea>
                     </div>
                     <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
-                            <input type="hidden" name="idUsuario" value="<%= session.getAttribute("idSolicitud")%>">
+                            <input type="hidden" name="idsolicitud" value="<%= session.getAttribute("idSolicitud")%>">
                     <!-- Botón de enviar dentro del formulario -->
                     <button type="submit" class="btn btn-primary">Enviar</button>
                 </form>

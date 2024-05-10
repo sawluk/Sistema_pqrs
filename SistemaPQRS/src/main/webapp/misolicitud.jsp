@@ -229,7 +229,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="mensaje" class="col-form-label">Mensaje:</label>
-                            <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
+                            <textarea class="form-control" id="mensaje" name="mensaje" rows="3"></textarea>
                         </div>
                         <div class="mb-3" hidden>
                             <label for="fecha" class="col-form-label">Fecha:</label>
