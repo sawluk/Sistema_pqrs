@@ -64,77 +64,77 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% 
-                          // Obtener el ID de usuario de la sesi?n
-                          String idUsuarioS = (String) session.getAttribute("idUsuario");
-                          int idUsuario = Integer.parseInt(idUsuarioS);
+                        <%
+                            // Obtener el ID de usuario de la sesi?n
+                            String idUsuarioS = (String) session.getAttribute("idUsuario");
+                            int idUsuario = Integer.parseInt(idUsuarioS);
 
-                          // Importar las clases necesarias y establecer la conexi?n a la base de datos
-                          PreparedStatement pstmt = null;
-                          SistemaPQRS conectar = new SistemaPQRS();
-                          Connection conn = null;
-                          PreparedStatement stmt = null;
-                          ResultSet rs = null;
+                            // Importar las clases necesarias y establecer la conexi?n a la base de datos
+                            PreparedStatement pstmt = null;
+                            SistemaPQRS conectar = new SistemaPQRS();
+                            Connection conn = null;
+                            PreparedStatement stmt = null;
+                            ResultSet rs = null;
 
-                          try {
-                              conn = conectar.establecerConexion();
+                            try {
+                                conn = conectar.establecerConexion();
 
-                              // Actualizar la consulta SQL para filtrar por idUsuario y unir la tabla de tiposolicitud
-                              String sql = "SELECT IdSolicitud, Titulo, Mensaje, tipo, Fecha, ruta_archivo, Respuesta, Estado "
-                                      + "FROM solicitud "
-                                      + "INNER JOIN tiposolicitud ON solicitud.IdTipoSolicitud = tiposolicitud.IdTipoSolicitud "
-                                      + "WHERE IdUsuario = ? ORDER BY Fecha ASC";
+                                // Actualizar la consulta SQL para filtrar por idUsuario y unir la tabla de tiposolicitud
+                                String sql = "SELECT IdSolicitud, Titulo, Mensaje, tipo, Fecha, ruta_archivo, Respuesta, Estado "
+                                        + "FROM solicitud "
+                                        + "INNER JOIN tiposolicitud ON solicitud.IdTipoSolicitud = tiposolicitud.IdTipoSolicitud "
+                                        + "WHERE IdUsuario = ? ORDER BY Fecha ASC";
 
-                              pstmt = conn.prepareStatement(sql);
-                              pstmt.setInt(1, idUsuario);
-                              rs = pstmt.executeQuery();
+                                pstmt = conn.prepareStatement(sql);
+                                pstmt.setInt(1, idUsuario);
+                                rs = pstmt.executeQuery();
 
-                              // Iterar a trav?s del conjunto de resultados y mostrar cada solicitud en la tabla
-                              while (rs.next()) {
-                                  int idSolicitud = rs.getInt("IdSolicitud");
-                                  String titulo = rs.getString("Titulo");
-                                  String mensaje = rs.getString("Mensaje");
-                                  String tipoSolicitud = rs.getString("tipo");
-                                  String fechaSolicitud = rs.getString("Fecha");
-                                  String archivo = rs.getString("ruta_archivo");
-                                  String respuesta = rs.getString("Respuesta");
-                                  String estado = rs.getString("Estado");
+                                // Iterar a trav?s del conjunto de resultados y mostrar cada solicitud en la tabla
+                                while (rs.next()) {
+                                    int idSolicitud = rs.getInt("IdSolicitud");
+                                    String titulo = rs.getString("Titulo");
+                                    String mensaje = rs.getString("Mensaje");
+                                    String tipoSolicitud = rs.getString("tipo");
+                                    String fechaSolicitud = rs.getString("Fecha");
+                                    String archivo = rs.getString("ruta_archivo");
+                                    String respuesta = rs.getString("Respuesta");
+                                    String estado = rs.getString("Estado");
                         %>
 
                         <tr>
-                            <td><%= titulo %></td>
-                            <td><%= tipoSolicitud %></td>
-                            <td><%= mensaje %></td>
-                            <td><% if (archivo != null) { %>
-                                    <a href="archivos/<%= archivo %>" target="_blank" class="btn btn-primary">
-        <i class="fas fa-file-download"></i> Abrir PDF
-    </a>
-                                    <% } else { %>
-                                    <!-- Bot�n deshabilitado si archivo es null -->
-                                    <button class="btn btn-primary" disabled>
-                                        <i class="fas fa-file-download"></i> Abrir PDF
-                                    </button>
-                                    <% } %>
+                            <td><%= titulo%></td>
+                            <td><%= tipoSolicitud%></td>
+                            <td><%= mensaje%></td>
+                            <td><% if (archivo != null) {%>
+                                <a href="archivos/<%= archivo%>" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-file-download"></i> Abrir PDF
+                                </a>
+                                <% } else { %>
+                                <!-- Bot�n deshabilitado si archivo es null -->
+                                <button class="btn btn-primary" disabled>
+                                    <i class="fas fa-file-download"></i> Abrir PDF
+                                </button>
+                                <% }%>
                             </td>
-                            <td><%= fechaSolicitud %></td>
-                            <td><%= estado %></td>
-                            <td><%= respuesta %></td>
+                            <td><%= fechaSolicitud%></td>
+                            <td><%= estado%></td>
+                            <td><%= respuesta%></td>
                             <td>
                                 <!-- Botones de edici?n y eliminaci?n -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" title="Editar"
-                                       data-idsolicitud="<%= idSolicitud %>"
-                                       data-titulo="<%= titulo %>"
-                                       data-tiposolicitud="<%= tipoSolicitud %>"
-                                       data-mensaje="<%= mensaje %>"
-                                       data-fecha="<%= fechaSolicitud %>"
-                                       data-archivo="<%= archivo %>"
-                                       data-respuesta="<%= respuesta %>"
-                                       data-estado="<%= estado %>">
+                                       data-idsolicitud="<%= idSolicitud%>"
+                                       data-titulo="<%= titulo%>"
+                                       data-tiposolicitud="<%= tipoSolicitud%>"
+                                       data-mensaje="<%= mensaje%>"
+                                       data-fecha="<%= fechaSolicitud%>"
+                                       data-archivo="<%= archivo%>"
+                                       data-respuesta="<%= respuesta%>"
+                                       data-estado="<%= estado%>">
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
 
-                                    <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="confirmarEliminacion(<%= idSolicitud %>);">
+                                    <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="confirmarEliminacion(<%= idSolicitud%>);">
                                         <i class="fas fa-trash"></i> Eliminar
                                     </a>
                                 </div>
@@ -142,25 +142,25 @@
                         </tr>
 
                         <%
-                            }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } finally {
-                            // Cerrar recursos
-                            try {
-                                if (rs != null) {
-                                    rs.close();
-                                }
-                                if (stmt != null) {
-                                    stmt.close();
-                                }
-                                if (conn != null) {
-                                    conn.close();
                                 }
                             } catch (SQLException e) {
                                 e.printStackTrace();
+                            } finally {
+                                // Cerrar recursos
+                                try {
+                                    if (rs != null) {
+                                        rs.close();
+                                    }
+                                    if (stmt != null) {
+                                        stmt.close();
+                                    }
+                                    if (conn != null) {
+                                        conn.close();
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
                         %>
 
                     </tbody>
@@ -168,8 +168,8 @@
             </div>
         </div>
     </div>
-                        
-<!-- Modal para editar solicitudes -->
+
+    <!-- Modal para editar solicitudes -->
     <div class="modal fade modal-dark" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content bg-dark text-light">
@@ -192,7 +192,6 @@
                             <select class="form-control" name="tipoSolicitud" id="tipoSolicitud" required>
                                 <option value="" selected disabled>Seleccionar Tipo de Solicitud</option>
                                 <%
-                                       
                                     try {
                                         conn = conectar.establecerConexion();
                                         String sql = "SELECT IdTipoSolicitud, tipo FROM tiposolicitud";
@@ -236,11 +235,11 @@
                             <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha de la solicitud" readonly required>
                         </div>
                         <div class="mb-3">
-                                <label for="archivo" class="col-form-label">Archivo:</label>
-                                <input type="text" class="form-control" id="archivo_nombre" readonly>
-                                <input type="file" class="form-control" id="archivo" name="archivo">
-                                <small class="text-muted">Si desea cambiar el archivo, seleccione uno nuevo.</small>
-                            </div>
+                            <label for="archivo" class="col-form-label">Archivo:</label>
+                            <input type="text" class="form-control" id="archivo_nombre" readonly>
+                            <input type="file" class="form-control" id="archivo" name="archivo">
+                            <small class="text-muted">Si desea cambiar el archivo, seleccione uno nuevo.</small>
+                        </div>
                         <div class="mb-3" hidden>
                             <label for="respuesta" class="col-form-label">Respuesta:</label>
                             <textarea class="form-control" id="respuesta" name="respuesta" rows="3" readonly></textarea>
@@ -261,33 +260,33 @@
 
     <script>
         $('#editModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var idSolicitud = button.data('idsolicitud');
-    var titulo = button.data('titulo');
-    var tipoSolicitud = button.data('tiposolicitud');
-    var mensaje = button.data('mensaje');
-    var fecha = button.data('fecha');
-    var archivo = button.data('archivo');
-    var respuesta = button.data('respuesta');
-    var estado = button.data('estado');
+            var button = $(event.relatedTarget);
+            var idSolicitud = button.data('idsolicitud');
+            var titulo = button.data('titulo');
+            var tipoSolicitud = button.data('tiposolicitud');
+            var mensaje = button.data('mensaje');
+            var fecha = button.data('fecha');
+            var archivo = button.data('archivo');
+            var respuesta = button.data('respuesta');
+            var estado = button.data('estado');
 
-    // Establecer valores en los campos del formulario
-    var modal = $(this);
-    modal.find('#idSolicitud').val(idSolicitud);
-    modal.find('#titulo').val(titulo);
-    modal.find('#mensaje').val(mensaje);
-    modal.find('#fecha').val(fecha);
-    modal.find('#archivo_nombre').val(archivo);
-    modal.find('#respuesta').val(respuesta);
-    modal.find('#estado').val(estado);
+            // Establecer valores en los campos del formulario
+            var modal = $(this);
+            modal.find('#idSolicitud').val(idSolicitud);
+            modal.find('#titulo').val(titulo);
+            modal.find('#mensaje').val(mensaje);
+            modal.find('#fecha').val(fecha);
+            modal.find('#archivo_nombre').val(archivo);
+            modal.find('#respuesta').val(respuesta);
+            modal.find('#estado').val(estado);
 
-    // Establecer el tipo de solicitud actual como seleccionado
-    modal.find('#tipoSolicitud option').each(function () {
-        if ($(this).text() === tipoSolicitud) {
-            $(this).prop('selected', true);
-        }
-    });
-});
+            // Establecer el tipo de solicitud actual como seleccionado
+            modal.find('#tipoSolicitud option').each(function () {
+                if ($(this).text() === tipoSolicitud) {
+                    $(this).prop('selected', true);
+                }
+            });
+        });
     </script>
 
 

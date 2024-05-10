@@ -10,7 +10,7 @@
 <header class="masthead text-center text-white" style="background-color: #2196F3;"> <!-- Azul -->
     <div class="masthead-content">
         <div class="container px-5">
-            <h2> Lista de solicitudes </h2>
+            <h2> Lista de solicitudes por revisar </h2>
         </div>
     </div>
     <div class="bg-circle-1 bg-circle" style="background-color: #64B5F6;"></div> <!-- Azul claro -->
@@ -28,7 +28,7 @@
                         <tr>
                             <th>ID Solicitud</th>
                             <th>Tipo solicitud</th>
-                            <th>Usuario</th>
+                            <th>Nombre usuario</th>
                             <th>Titulo</th>
                             <th>Mensaje</th>
                             <th>Archivo</th>
@@ -48,10 +48,11 @@
 
                             try {
                                 conn = conectar.establecerConexion();
-                                String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo "
+                                String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo, s.Estado "
                                         + "FROM Solicitud s "
                                         + "INNER JOIN usuario u ON s.IdUsuario = u.Idusuario "
                                         + "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud "
+                                        + "WHERE s.Estado NOT IN ('Revisado') "
                                         + "ORDER BY s.IdSolicitud ASC";
 
                                 pstmt = conn.prepareStatement(sql);
@@ -59,7 +60,7 @@
 
                                 // Iterar a través del conjunto de resultados y mostrar cada solicitud en la tabla
                                 while (rs.next()) {
-                                    String idsolicitud = rs.getString("IdSolicitud");
+                                    String idSolicitud = rs.getString("IdSolicitud");
                                     String nombreUsuario = rs.getString("NombreUsuario");
                                     String tipoSolicitud = rs.getString("TipoSolicitud");
                                     String titulo = rs.getString("Titulo");
@@ -72,27 +73,27 @@
 
 
                         <tr>
-                            <td><%= idsolicitud%></td>
+                            <td><%= idSolicitud%></td>
                             <td><%= tipoSolicitud%></td> <!-- Utilizar la variable tipoSolicitud en lugar de idtipo -->
                             <td><%= nombreUsuario%></td> <!-- Utilizar la variable nombreUsuario en lugar de idusuario -->
                             <td><%= titulo%></td>
                             <td><%= mensaje%></td>
-                            <td><% if (archivo != null) { %>
-                                    <a href="archivos/<%= archivo %>" target="_blank" class="btn btn-primary">
-                                        <i class="fas fa-file-download"></i> Abrir PDF
-                                    </a>
-                                    <% } else { %>
-                                    <!-- Botón deshabilitado si archivo es null -->
-                                    <button class="btn btn-primary" disabled>
-                                        <i class="fas fa-file-download"></i> Abrir PDF
-                                    </button>
-                                    <% } %>
+                            <td><% if (archivo != null) {%>
+                                <a href="archivos/<%= archivo%>" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-file-download"></i> Abrir PDF
+                                </a>
+                                <% } else { %>
+                                <!-- Botón deshabilitado si archivo es null -->
+                                <button class="btn btn-primary" disabled>
+                                    <i class="fas fa-file-download"></i> Abrir PDF
+                                </button>
+                                <% }%>
                             </td>
                             <td><%= fecha%></td>
                             <td>
                                 <!-- Botones de responder -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a href="#" class="btn btn-primary btn-sm" title="Responder solicitud" data-toggle="modal" data-target="#modalRespuesta" onclick="abrirModalRespuesta()">
+                                    <a href="#" title="Dar respuesta" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#respuestaModal" data-idsolicitud="<%= idSolicitud%>">
                                         <i class="fas fa-reply"></i> Responder
                                     </a>
                                 </div>
@@ -126,36 +127,43 @@
         </div>
     </div>
 
-    <!-- Ventana modal para el formulario de respuesta -->
-<div class="modal fade" id="modalRespuesta" tabindex="-1" role="dialog" aria-labelledby="modalRespuestaLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalRespuestaLabel">Responder solicitud</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="SvRespuesta" method="POST" id="formularioRespuesta">
-                    <div class="form-group">
-                        <label for="respuesta">Respuesta:</label>
-                        <textarea class="form-control" id="respuesta" name="respuesta" rows="4" cols="50"></textarea>
-                    </div>
-                    <!-- Campo oculto para el ID del usuario obtenido de la sesión -->
-                            <input type="hidden" name="idsolicitud" value="<%= session.getAttribute("idSolicitud")%>">
-                    <!-- Botón de enviar dentro del formulario -->
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </form>
+    <!-- Modal para dar respuesta -->
+    <div class="modal fade" id="respuestaModal" tabindex="-1" aria-labelledby="respuestaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="respuestaModalLabel">Responder Solicitud</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="SvRespuesta" method="POST" id="respuestaForm">
+                        <div class="mb-3">
+                            <label for="respuesta" class="form-label">Respuesta:</label>
+                            <textarea class="form-control" id="respuesta" name="respuesta" rows="3" required></textarea>
+                        </div>
+                        <!-- Campo oculto para enviar el ID de la solicitud -->
+                        <input type="hidden" id="idSolicitudInput" name="idSolicitud">
+                        <!-- Campo oculto para cambiar el estado de la solicitud a "Revisado" -->
+                        <input type="hidden" id="estadoInput" name="estado" value="Revisado">
+                        <button type="submit" class="btn btn-primary">Enviar respuesta</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    <script>
-        function abrirModalRespuesta() {
-            $('#modalRespuesta').modal('show');
-        }
 
+    <script>
+        // Capturar el evento de clic en el botón de respuesta
+        $('.btn-success').click(function () {
+            // Obtener los datos de la solicitud seleccionada
+            var idSolicitud = $(this).data('idsolicitud');
+
+            // Poner el ID de la solicitud en el campo oculto del formulario
+            $('#idSolicitudInput').val(idSolicitud);
+
+            // Mostrar el modal de respuesta
+            $('#respuestaModal').modal('show');
+        });
     </script>
 
 </section>

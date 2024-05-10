@@ -113,7 +113,11 @@ public class Solicitud {
             }
         }
     }
-
+    
+    /**
+     * Metodo para eliminar una solicitud de la base de datos
+     * @param p_IdSolicitud 
+     */
     public static void eliminarSolicitud(int p_IdSolicitud) {
         // Establecer la conexión a la base de datos
         SistemaPQRS conectar = new SistemaPQRS();
@@ -189,6 +193,54 @@ public class Solicitud {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+    /**
+     * Metodo que envia la respuesta del administrador al usuario
+     * @param p_IdSolicitud
+     * @param p_Respuesta 
+     */
+    public static void respuesta(int p_IdSolicitud, String p_Respuesta) {
+        SistemaPQRS conectar = new SistemaPQRS();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            // Obtener conexión a la base de datos
+            conn = conectar.establecerConexion();
+
+            // Preparar la consulta SQL
+            String sql = "UPDATE Solicitud SET Respuesta = ?, Estado = 'Revisado' WHERE IdSolicitud = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            // Establecer los parámetros de la consulta
+            pstmt.setString(1, p_Respuesta);
+            pstmt.setInt(2, p_IdSolicitud);
+
+            // Ejecutar la consulta
+            pstmt.executeUpdate();
+
+            // La solicitud ha sido atendida y marcada como revisada
+            System.out.println("La solicitud ha sido atendida y marcada como revisada.");
+        } catch (SQLException e) {
+            // Manejar cualquier excepción SQL
+            e.printStackTrace();
+        } finally {
+            // Cerrar la conexión y liberar los recursos
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

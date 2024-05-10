@@ -4,6 +4,7 @@
  */
 package Servlets;
 
+import com.mycompany.SistemaPQRS.Solicitud;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,15 +34,6 @@ public class SvRespuesta extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SvRespuesta</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SvRespuesta at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
@@ -71,7 +63,16 @@ public class SvRespuesta extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // Obtener los parámetros enviados desde el formulario
+        int idsolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
+        String respuesta = request.getParameter("respuesta");
+        System.out.println(idsolicitud);
+
+        // Convertir idSolicitudStr a un entero
+
+        
+        Solicitud.respuesta(idsolicitud, respuesta);
+        response.sendRedirect("listaSolicitudes.jsp");
     }
 
     /**
