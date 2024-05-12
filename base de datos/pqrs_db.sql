@@ -70,6 +70,18 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE EliminarUsuario (
+    IN Idusuario INT
+)
+BEGIN
+    DELETE FROM usuario WHERE Idusuario = idUsuario;
+END //
+
+DELIMITER ;
+
+
 
 DELIMITER //
 

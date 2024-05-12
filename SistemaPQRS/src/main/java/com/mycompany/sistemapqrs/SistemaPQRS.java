@@ -25,7 +25,7 @@ public class SistemaPQRS {
     public Connection establecerConexion() {
         String url = "jdbc:mysql://localhost:3306/sistema_pqrs?serverTimeZone=utc";
         String user = "root"; // Nombre de usuario correcto
-        String password = "admin"; // Contraseña de tu base de datos, si la tienes
+        String password = "ingsistemas"; // Contraseña de tu base de datos, si la tienes
         Connection conn = null;
 
         try {
@@ -172,6 +172,30 @@ public class SistemaPQRS {
                 }
             } catch (SQLException e) {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+    
+    public void eliminarUsuario(int idUsuario) {
+        Connection conn = establecerConexion();
+        CallableStatement cs = null;
+
+        try {
+            cs = conn.prepareCall("{ call EliminarUsuario(?) }");
+            cs.setInt(1, idUsuario);
+            cs.execute();
+        } catch (SQLException e) {
+            System.out.println("Error al borrar el usuario: " + e.getMessage());
+        } finally {
+            try {
+                if (cs != null) {
+                    cs.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al cerrar la conexión: " + ex.getMessage());
             }
         }
     }
