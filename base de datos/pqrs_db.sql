@@ -51,8 +51,8 @@ END //
 DELIMITER ;
 
 DELIMITER //
--- Procedimiento para editar los datos del usuario
-CREATE PROCEDURE editarUsuario(
+
+CREATE PROCEDURE editarUsuario (
     IN p_Idusuario INT,
     IN p_Cedula VARCHAR(20),
     IN p_Nombre_usuario VARCHAR(50),
@@ -71,6 +71,7 @@ BEGIN
 END //
 
 DELIMITER ;
+
 
 DELIMITER //
 

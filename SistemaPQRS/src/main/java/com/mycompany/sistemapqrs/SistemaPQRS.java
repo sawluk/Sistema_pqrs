@@ -4,6 +4,7 @@
  */
 package com.mycompany.SistemaPQRS;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -139,5 +140,43 @@ public class SistemaPQRS {
 
         return datosUsuario;
     }
+    
+    public void editarUsuario(int idUsuario, String cedula, String nombre, String correo, String contrasena, String rol) {
+    Connection conn = null;
+    CallableStatement stmt = null;
+    conn = establecerConexion();
+    try {
+        if (conn != null) {
+            // Llamada al procedimiento almacenado para editar usuario
+            String procedimiento = "{CALL editarUsuario(?, ?, ?, ?, ?, ?)}";
+            stmt = conn.prepareCall(procedimiento);
+            stmt.setInt(1, idUsuario);
+            stmt.setString(2, cedula);
+            stmt.setString(3, nombre);
+            stmt.setString(4, correo);
+            stmt.setString(5, contrasena);
+            stmt.setString(6, rol); // Agrega el parámetro de rol aquí
+            stmt.executeUpdate();
+            System.out.println("Usuario editado exitosamente.");
+        } else {
+            System.err.println("No se pudo establecer la conexión con la base de datos.");
+        }
+    } catch (SQLException e) {
+        System.err.println("Error al editar usuario: " + e.getMessage());
+    } finally {
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al cerrar la conexión: " + e.getMessage());
+        }
+    }
+}
+
+
 
 }
