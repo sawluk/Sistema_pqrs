@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 public class SvLogin extends HttpServlet {
 
     SistemaPQRS conectar = new SistemaPQRS();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,38 +33,42 @@ public class SvLogin extends HttpServlet {
 
         // Redirigir a la página de inicio
         response.sendRedirect("index.jsp");
-        
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    String cedula = request.getParameter("cedula");
-    String contrasena = request.getParameter("contrasenia");
+        String cedula = request.getParameter("cedula");
+        String contrasena = request.getParameter("contrasenia");
 
-    // Llamar al método obtenerInformacionUsuario
-    String[] informacionUsuario = conectar.ingresar(cedula, contrasena);
-    
-    if (informacionUsuario != null) {
+        // Llamar al método obtenerInformacionUsuario
+        String[] informacionUsuario = conectar.ingresar(cedula, contrasena);
+
+        if (informacionUsuario != null) {
             // Si las credenciales son válidas, almacenar el id, rol y nombre en la sesión
             HttpSession session = request.getSession();
             session.setAttribute("idUsuario", informacionUsuario[0]); // El id está en la posición 0// El rol está en la posición 1
             session.setAttribute("nombre", informacionUsuario[2]); // El nombre está en la posición 2
+            session.setAttribute("cedula", informacionUsuario[3]);
+            session.setAttribute("correo", informacionUsuario[4]);
+            session.setAttribute("contrasena", informacionUsuario[5]);
             
+
             String rol = informacionUsuario[1];
-            if(rol.equals("Usuario")){
+            if (rol.equals("Usuario")) {
                 // Redirigir a la página de inicio
-            response.sendRedirect("usuario.jsp");
-            }else{
+                response.sendRedirect("usuario.jsp");
+            } else {
                 response.sendRedirect("admin.jsp");
             }
 
-            
         } else {
             // Si las credenciales no son válidas, redirigir de vuelta al formulario de inicio de sesión con un mensaje de error
             response.sendRedirect("index.jsp?errorP=true");
         }
-}
+    }
+
     /**
      * Returns a short description of the servlet.
      *

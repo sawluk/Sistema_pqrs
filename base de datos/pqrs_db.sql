@@ -57,16 +57,14 @@ CREATE PROCEDURE editarUsuario (
     IN p_Cedula VARCHAR(20),
     IN p_Nombre_usuario VARCHAR(50),
     IN p_Correo VARCHAR(50),
-    IN p_Contrasena VARCHAR(50),
-    IN p_Rol ENUM('Admin', 'Usuario')
+    IN p_Contrasena VARCHAR(50)
 )
 BEGIN
     UPDATE usuario
     SET Cedula = p_Cedula,
         Nombre_usuario = p_Nombre_usuario,
         Correo = p_Correo,
-        Contrasena = p_Contrasena,
-        Rol = p_Rol
+        Contrasena = p_Contrasena
     WHERE Idusuario = p_Idusuario;
 END //
 
@@ -123,7 +121,7 @@ DELIMITER ;
 INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
 VALUES 
 ('1086', 'Alejandro', 'Alejandro18@gmail.com', 'alejo123', 'Admin'),
-('1025', 'David', 'DavidN@gmail.com', '123', 'Usuario'),
+('123', 'David', 'DavidN@gmail.com', '123', 'Usuario'),
 ('123456', 'Jorge', 'JorgeO@gmail.com', 'jorge456', 'Usuario');
 
 INSERT INTO tipoSolicitud (tipo) VALUES
@@ -171,7 +169,7 @@ MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
 
 SET SQL_SAFE_UPDATES = 0;
 
-DELETE FROM solicitud;
+
 
 
 

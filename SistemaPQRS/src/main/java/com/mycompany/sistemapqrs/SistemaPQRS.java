@@ -25,7 +25,7 @@ public class SistemaPQRS {
     public Connection establecerConexion() {
         String url = "jdbc:mysql://localhost:3306/sistema_pqrs?serverTimeZone=utc";
         String user = "root"; // Nombre de usuario correcto
-        String password = "ingsistemas"; // Contraseña de tu base de datos, si la tienes
+        String password = "admin"; // Contraseña de tu base de datos, si la tienes
         Connection conn = null;
 
         try {
@@ -48,7 +48,6 @@ public class SistemaPQRS {
      * @param correo
      * @param contrasena
      */
-
     public void registrarUsuario(String cedula, String nombre, String correo, String contrasena) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -114,7 +113,7 @@ public class SistemaPQRS {
 
         try {
             if (conn != null) {
-                String sql = "SELECT Idusuario, Rol, Nombre_usuario FROM usuario WHERE Cedula = ? AND Contrasena = ?";
+                String sql = "SELECT Idusuario, Rol, Nombre_usuario,Correo,Contrasena FROM usuario WHERE Cedula = ? AND Contrasena = ?";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, cedula);
                 pstmt.setString(2, contrasena);
@@ -125,7 +124,8 @@ public class SistemaPQRS {
                     int idUsuario = rs.getInt("Idusuario");
                     String rol = rs.getString("Rol");
                     String nombre = rs.getString("Nombre_usuario");
-                    datosUsuario = new String[]{String.valueOf(idUsuario), rol, nombre};
+                    String correo = rs.getString("Correo");
+                    datosUsuario = new String[]{String.valueOf(idUsuario), rol, nombre, cedula, correo, contrasena};
                 }
 
                 rs.close();
@@ -140,43 +140,40 @@ public class SistemaPQRS {
 
         return datosUsuario;
     }
-    
+
     public void editarUsuario(int idUsuario, String cedula, String nombre, String correo, String contrasena, String rol) {
-    Connection conn = null;
-    CallableStatement stmt = null;
-    conn = establecerConexion();
-    try {
-        if (conn != null) {
-            // Llamada al procedimiento almacenado para editar usuario
-            String procedimiento = "{CALL editarUsuario(?, ?, ?, ?, ?, ?)}";
-            stmt = conn.prepareCall(procedimiento);
-            stmt.setInt(1, idUsuario);
-            stmt.setString(2, cedula);
-            stmt.setString(3, nombre);
-            stmt.setString(4, correo);
-            stmt.setString(5, contrasena);
-            stmt.setString(6, rol); // Agrega el parámetro de rol aquí
-            stmt.executeUpdate();
-            System.out.println("Usuario editado exitosamente.");
-        } else {
-            System.err.println("No se pudo establecer la conexión con la base de datos.");
-        }
-    } catch (SQLException e) {
-        System.err.println("Error al editar usuario: " + e.getMessage());
-    } finally {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        conn = establecerConexion();
         try {
-            if (stmt != null) {
-                stmt.close();
-            }
             if (conn != null) {
-                conn.close();
+                // Llamada al procedimiento almacenado para editar usuario
+                String procedimiento = "{CALL editarUsuario(?, ?, ?, ?, ?)}";
+                stmt = conn.prepareCall(procedimiento);
+                stmt.setInt(1, idUsuario);
+                stmt.setString(2, cedula);
+                stmt.setString(3, nombre);
+                stmt.setString(4, correo);
+                stmt.setString(5, contrasena);
+                stmt.executeUpdate();
+                System.out.println("Usuario editado exitosamente.");
+            } else {
+                System.err.println("No se pudo establecer la conexión con la base de datos.");
             }
         } catch (SQLException e) {
-            System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            System.err.println("Error al editar usuario: " + e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
         }
     }
-}
-
-
 
 }
