@@ -50,9 +50,11 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER //
 
-CREATE PROCEDURE editarUsuario (
+-- Procedimiento para editar un usuario
+
+DELIMITER //
+CREATE PROCEDURE EditarUsuario (
     IN p_Idusuario INT,
     IN p_Cedula VARCHAR(20),
     IN p_Nombre_usuario VARCHAR(50),
@@ -72,6 +74,8 @@ DELIMITER ;
 
 DELIMITER //
 
+-- procedimiento para eliminar un usuario
+
 CREATE PROCEDURE EliminarUsuario (
     IN p_IdUsuario INT
 )
@@ -81,7 +85,7 @@ END //
 
 DELIMITER ;
 
-
+-- procedimiento para agregar solicitudes
 
 DELIMITER //
 
@@ -129,27 +133,6 @@ END //
 
 DELIMITER ;
 
-
-INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
-VALUES 
-('1086', 'Alejandro', 'Alejandro18@gmail.com', 'alejo123', 'Admin'),
-('123', 'David', 'DavidN@gmail.com', '123', 'Usuario'),
-('123456', 'Jorge', 'JorgeO@gmail.com', 'jorge456', 'Usuario');
-
-INSERT INTO tipoSolicitud (tipo) VALUES
-('Pregunta'),
-('Queja'),
-('Reclamo'),
-('Sugerencia'),
-('Felicitacion');
-
-INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, ruta_archivo)
-VALUES 
-    (2, 1, 'Consulta sobre el funcionamiento', 'Tengo una pregunta sobre cómo utilizar cierta funcionalidad del sistema.', NULL),
-    (2, 2, 'Queja sobre el servicio', 'He experimentado problemas con la lentitud del sistema.', NULL),
-    (2, 4, 'Sugerencia para mejorar la interfaz', 'Creo que sería útil agregar un botón de acceso rápido en la página principal.', NULL);
-
-
 -- procedimiento para Eliminar una solicitud
 DELIMITER //
 
@@ -175,11 +158,29 @@ BEGIN
 END; //
 DELIMITER ;
 
-ALTER TABLE usuario
-MODIFY COLUMN Rol ENUM('Admin', 'Usuario') NOT NULL DEFAULT 'Usuario';
+
+INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
+VALUES 
+('1086', 'Alejandro', 'Alejandro18@gmail.com', 'alejo123', 'Admin'),
+('123', 'David', 'DavidN@gmail.com', '123', 'Usuario'),
+('123456', 'Jorge', 'JorgeO@gmail.com', 'jorge456', 'Usuario');
+
+INSERT INTO tipoSolicitud (tipo) VALUES
+('Pregunta'),
+('Queja'),
+('Reclamo'),
+('Sugerencia'),
+('Felicitacion');
+
+INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, ruta_archivo)
+VALUES 
+    (2, 1, 'Consulta sobre el funcionamiento', 'Tengo una pregunta sobre cómo utilizar cierta funcionalidad del sistema.', NULL),
+    (2, 2, 'Queja sobre el servicio', 'He experimentado problemas con la lentitud del sistema.', NULL),
+    (2, 4, 'Sugerencia para mejorar la interfaz', 'Creo que sería útil agregar un botón de acceso rápido en la página principal.', NULL);
 
 
-SET SQL_SAFE_UPDATES = 0;
+
+
 
 
 

@@ -148,7 +148,7 @@ public class SistemaPQRS {
         try {
             if (conn != null) {
                 // Llamada al procedimiento almacenado para editar usuario
-                String procedimiento = "{CALL editarUsuario(?, ?, ?, ?, ?)}";
+                String procedimiento = "{CALL EditarUsuario(?, ?, ?, ?, ?)}";
                 stmt = conn.prepareCall(procedimiento);
                 // Establecer los parámetros del procedimiento almacenado
                 stmt.setInt(1, idusuario);

@@ -55,6 +55,8 @@ public class SvEditarUsuario extends HttpServlet {
         try {
             conectar.editarUsuario(idUsuario, cedula, nombre, correo, contrasena);
         } catch (Exception e) {
+             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+             rd.forward(request, response);
             request.setAttribute("error", "Error al actualizar el usuario: " + e.getMessage());
         }    
         // Get the current session
@@ -68,7 +70,7 @@ public class SvEditarUsuario extends HttpServlet {
         session.setAttribute("contrasena", contrasena);
 
         // Redirect the user back to the home page or another page of your choice
-        response.sendRedirect("perfil.jsp");
+        response.sendRedirect("index.jsp");
     }
 
     /**
