@@ -26,6 +26,7 @@ public class SvRegistrar extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+        System.out.println(idUsuario);
         conectar.eliminarUsuario(idUsuario);
          request.getSession().invalidate();
         response.sendRedirect("index.jsp");

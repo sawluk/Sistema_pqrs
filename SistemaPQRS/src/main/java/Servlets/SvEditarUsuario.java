@@ -27,32 +27,12 @@ public class SvEditarUsuario extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SvEditarUsuario</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SvEditarUsuario at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -73,11 +53,11 @@ public class SvEditarUsuario extends HttpServlet {
         String correo = request.getParameter("correo");
         
         try {
-            conectar.editarUsuario(idUsuario, cedula, nombre, correo, contrasena, correo);
+            conectar.editarUsuario(idUsuario, cedula, nombre, correo, contrasena);
         } catch (Exception e) {
             request.setAttribute("error", "Error al actualizar el usuario: " + e.getMessage());
         }    
-    // Get the current session
+        // Get the current session
         HttpSession session = request.getSession();
 
         // Update the session attributes with the updated user information

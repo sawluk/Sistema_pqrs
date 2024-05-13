@@ -71,7 +71,7 @@ function confirmarEliminarUsuario() {
     var idUsuario = '<%= request.getSession().getAttribute("idUsuario") %>';
     if (confirm("Estás seguro de borrar tu usuario ???(Tus solicitudes enviadas también se borrarán)")) {
         $.ajax({
-            url: 'SvRegistro',
+            url: 'SvRegistrar',
             type: 'GET',
             data: {
                 idUsuario: idUsuario

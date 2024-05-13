@@ -73,10 +73,10 @@ DELIMITER ;
 DELIMITER //
 
 CREATE PROCEDURE EliminarUsuario (
-    IN Idusuario INT
+    IN p_IdUsuario INT
 )
 BEGIN
-    DELETE FROM usuario WHERE Idusuario = idUsuario;
+    DELETE FROM usuario WHERE Idusuario = p_idUsuario;
 END //
 
 DELIMITER ;

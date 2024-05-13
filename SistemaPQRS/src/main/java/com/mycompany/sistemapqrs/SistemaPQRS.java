@@ -141,7 +141,7 @@ public class SistemaPQRS {
         return datosUsuario;
     }
 
-    public void editarUsuario(int idUsuario, String cedula, String nombre, String correo, String contrasena, String rol) {
+    public void editarUsuario(int idusuario, String cedula, String nombre, String correo, String contrasena) {
         Connection conn = null;
         CallableStatement stmt = null;
         conn = establecerConexion();
@@ -150,11 +150,14 @@ public class SistemaPQRS {
                 // Llamada al procedimiento almacenado para editar usuario
                 String procedimiento = "{CALL editarUsuario(?, ?, ?, ?, ?)}";
                 stmt = conn.prepareCall(procedimiento);
-                stmt.setInt(1, idUsuario);
+                // Establecer los parámetros del procedimiento almacenado
+                stmt.setInt(1, idusuario);
                 stmt.setString(2, cedula);
                 stmt.setString(3, nombre);
                 stmt.setString(4, correo);
                 stmt.setString(5, contrasena);
+                
+                // Ejecutar el procedimiento almacenado
                 stmt.executeUpdate();
                 System.out.println("Usuario editado exitosamente.");
             } else {
