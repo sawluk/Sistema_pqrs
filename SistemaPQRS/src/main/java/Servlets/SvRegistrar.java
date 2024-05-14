@@ -28,7 +28,6 @@ public class SvRegistrar extends HttpServlet {
         int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
         System.out.println(idUsuario);
         conectar.eliminarUsuario(idUsuario);
-         request.getSession().invalidate();
         response.sendRedirect("index.jsp");
     }
 

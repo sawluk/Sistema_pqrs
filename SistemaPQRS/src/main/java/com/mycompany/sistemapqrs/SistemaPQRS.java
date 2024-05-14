@@ -142,41 +142,52 @@ public class SistemaPQRS {
     }
 
     public void editarUsuario(int idusuario, String cedula, String nombre, String correo, String contrasena) {
-        Connection conn = null;
-        CallableStatement stmt = null;
-        conn = establecerConexion();
+        // Establecer la conexión a la base de datos
+    SistemaPQRS conectar = new SistemaPQRS();
+    Connection conn = null;
+    PreparedStatement stmt = null;
+
+    try {
+        conn = conectar.establecerConexion();
+
+        // Preparar la consulta SQL para actualizar el usuario
+        String sql = "UPDATE usuario SET Cedula = ?, Nombre_usuario = ?, Correo = ?, Contrasena = ? WHERE Idusuario = ?";
+        stmt = conn.prepareStatement(sql);
+        stmt.setString(1, cedula);
+        stmt.setString(2, nombre);
+        stmt.setString(3, correo);
+        stmt.setString(4, contrasena);
+        stmt.setInt(5, idusuario);
+
+        // Ejecutar la consulta para actualizar el usuario
+        stmt.executeUpdate();
+
+        // Imprimir mensaje de éxito
+        System.out.println("Usuario editado");
+
+    } catch (SQLException se) {
+        // Manejar cualquier excepción SQL
+        se.printStackTrace();
+    } catch (Exception e) {
+        // Manejar otras excepciones
+        e.printStackTrace();
+    } finally {
+        // Cerrar recursos
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+        } catch (SQLException se2) {
+            se2.printStackTrace();
+        }
         try {
             if (conn != null) {
-                // Llamada al procedimiento almacenado para editar usuario
-                String procedimiento = "{CALL EditarUsuario(?, ?, ?, ?, ?)}";
-                stmt = conn.prepareCall(procedimiento);
-                // Establecer los parámetros del procedimiento almacenado
-                stmt.setInt(1, idusuario);
-                stmt.setString(2, cedula);
-                stmt.setString(3, nombre);
-                stmt.setString(4, correo);
-                stmt.setString(5, contrasena);
-                
-                // Ejecutar el procedimiento almacenado
-                stmt.executeUpdate();
-                System.out.println("Usuario editado exitosamente.");
-            } else {
-                System.err.println("No se pudo establecer la conexión con la base de datos.");
+                conn.close();
             }
-        } catch (SQLException e) {
-            System.err.println("Error al editar usuario: " + e.getMessage());
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
+        } catch (SQLException se) {
+            se.printStackTrace();
         }
+    }
     }
     
     public void eliminarUsuario(int idUsuario) {
@@ -184,9 +195,10 @@ public class SistemaPQRS {
         CallableStatement cs = null;
 
         try {
-            cs = conn.prepareCall("{ call EliminarUsuario(?) }");
+            cs = conn.prepareCall("DELETE FROM usuario WHERE Idusuario = ?");
             cs.setInt(1, idUsuario);
             cs.execute();
+            System.out.println("Usuario eliminado ");
         } catch (SQLException e) {
             System.out.println("Error al borrar el usuario: " + e.getMessage());
         } finally {
