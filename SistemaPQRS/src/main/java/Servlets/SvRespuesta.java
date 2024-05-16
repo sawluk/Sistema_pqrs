@@ -20,15 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "SvRespuesta", urlPatterns = {"/SvRespuesta"})
 public class SvRespuesta extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -64,15 +55,19 @@ public class SvRespuesta extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        // Obtener los parámetros enviados desde el formulario
-        int idsolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
-        String respuesta = request.getParameter("respuesta");
-        System.out.println(idsolicitud);
+int idsolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
+String respuesta = request.getParameter("respuesta");
+String correoa = request.getParameter("correoAdmin");
+String correou = request.getParameter("correoUsuario");
+String enviarPorCorreo = request.getParameter("enviarPorCorreo");
 
-        // Convertir idSolicitudStr a un entero
 
-        
-        Solicitud.respuesta(idsolicitud, respuesta);
-        response.sendRedirect("listaSolicitudes.jsp");
+// Llamada al método para procesar la respuesta en la base de datos
+Solicitud.respuesta(idsolicitud, respuesta);
+
+// Redireccionar a la página de lista de solicitudes
+response.sendRedirect("listaSolicitudes.jsp");
+
     }
 
     /**

@@ -4,7 +4,7 @@
 <header class="masthead text-center text-white" style="background-color: #2196F3;"> <!-- Azul -->
     <div class="masthead-content">
         <div class="container px-5">
-            <h2> Aqui puedes editar tu perfil si lo quieres <% String nombreUsuario = (String) session.getAttribute("nombre"); %> <% if (nombreUsuario != null && !nombreUsuario.isEmpty()) {%>, <%= nombreUsuario%>?<% }%></h2>
+            <h2> Aqui puedes editar tu perfil si lo quieres </h2>
             <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Formulario</a>
         </div>
     </div>

@@ -4,6 +4,7 @@
     <body>
         <main>
             <div class="wrapper">
+                <%@include file= "templates/alerts.jsp" %>
                 <form class="login" action="SvLogin" method="POST">
                     <h2 class="title">Login para atencion</h2>
                     <div class="form-group">

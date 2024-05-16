@@ -32,7 +32,7 @@
                             <th>Titulo</th>
                             <th>Mensaje</th>
                             <th>Archivo</th>
-                            <th>Fecha</th>
+                            <th>Fecha y hora</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -48,7 +48,7 @@
 
                             try {
                                 conn = conectar.establecerConexion();
-                                String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo, s.Estado "
+                                String sql = "SELECT s.IdSolicitud, s.Titulo, s.Mensaje, u.Nombre_usuario AS NombreUsuario, ts.tipo AS TipoSolicitud, s.Fecha, s.ruta_archivo, s.Estado, u.Correo "
                                         + "FROM Solicitud s "
                                         + "INNER JOIN usuario u ON s.IdUsuario = u.Idusuario "
                                         + "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud "
@@ -66,6 +66,7 @@
                                     String titulo = rs.getString("Titulo");
                                     String mensaje = rs.getString("Mensaje");
                                     String archivo = rs.getString("ruta_archivo");
+                                    String correoUsuario = rs.getString("Correo");
                                     String fecha = rs.getString("Fecha");
                         %>
 
@@ -93,7 +94,7 @@
                             <td>
                                 <!-- Botones de responder -->
                                 <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a href="#" title="Dar respuesta" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#respuestaModal" data-idsolicitud="<%= idSolicitud%>">
+                                    <a href="#" title="Dar respuesta" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#respuestaModal" data-idsolicitud="<%= idSolicitud%>" data-correoUsuario="<%= correoUsuario%>">
                                         <i class="fas fa-reply"></i> Responder
                                     </a>
                                 </div>
@@ -129,41 +130,58 @@
 
     <!-- Modal para dar respuesta -->
     <div class="modal fade" id="respuestaModal" tabindex="-1" aria-labelledby="respuestaModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="respuestaModalLabel">Responder Solicitud</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="SvRespuesta" method="POST" id="respuestaForm">
-                        <div class="mb-3">
-                            <label for="respuesta" class="form-label">Respuesta:</label>
-                            <textarea class="form-control" id="respuesta" name="respuesta" rows="3" required></textarea>
-                        </div>
-                        <!-- Campo oculto para enviar el ID de la solicitud -->
-                        <input type="hidden" id="idSolicitudInput" name="idSolicitud">
-                        <!-- Campo oculto para cambiar el estado de la solicitud a "Revisado" -->
-                        <input type="hidden" id="estadoInput" name="estado" value="Revisado">
-                        <button type="submit" class="btn btn-primary">Enviar respuesta</button>
-                    </form>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="respuestaModalLabel">Responder Solicitud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="SvRespuesta" method="POST" id="respuestaForm">
+                    <!-- Campo oculto para el correo electrónico del administrador -->
+                    <input type="hidden" id="correoAdmin" name="correoAdmin" value="<%= session.getAttribute("correo") %>">
+                    <!-- Campo oculto para el correo electrónico del usuario -->
+                    <input type="hidden" id="correoUsuarioInput" name="correoUsuario"> 
+
+                    <div class="mb-3">
+                        <label for="respuesta" class="form-label">Respuesta:</label>
+                        <textarea class="form-control" id="respuesta" name="respuesta" rows="3" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="enviarPorCorreo" class="form-label">Enviar por correo electrónico:</label>
+                        <select class="form-select" id="enviarPorCorreo" name="enviarPorCorreo">
+                            <option value="no">No</option>
+                            <option value="si">Sí</option>
+                        </select>
+                    </div>
+
+                    <!-- Campo oculto para enviar el ID de la solicitud -->
+                    <input type="hidden" id="idSolicitudInput" name="idSolicitud">
+                    <!-- Campo oculto para cambiar el estado de la solicitud a "Revisado" -->
+                    <input type="hidden" id="estadoInput" name="estado" value="Revisado">
+                    <button type="submit" class="btn btn-primary">Enviar respuesta</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
     <script>
-        // Capturar el evento de clic en el botón de respuesta
-        $('.btn-success').click(function () {
-            // Obtener los datos de la solicitud seleccionada
-            var idSolicitud = $(this).data('idsolicitud');
+    // Capturar el evento de clic en el botón de respuesta
+    $('.btn-success').click(function () {
+        // Obtener los datos de la solicitud seleccionada
+        var idSolicitud = $(this).data('idsolicitud');
+        var correoUsuario = $(this).data('correousuario');
 
-            // Poner el ID de la solicitud en el campo oculto del formulario
-            $('#idSolicitudInput').val(idSolicitud);
+        // Poner el ID de la solicitud en el campo oculto del formulario
+        $('#idSolicitudInput').val(idSolicitud);
+        // Establecer el correo del usuario en el campo oculto del formulario
+        $('#correoUsuarioInput').val(correoUsuario);
 
-            // Mostrar el modal de respuesta
-            $('#respuestaModal').modal('show');
-        });
-    </script>
+        // Mostrar el modal de respuesta
+        $('#respuestaModal').modal('show');
+    });
+</script>
 
 </section>
