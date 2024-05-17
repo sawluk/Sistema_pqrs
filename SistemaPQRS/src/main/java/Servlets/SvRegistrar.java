@@ -27,6 +27,7 @@ public class SvRegistrar extends HttpServlet {
             throws ServletException, IOException {
         int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
         System.out.println(idUsuario);
+        //llamar al metodo para eliminar el usuario de la base de datos
         conectar.eliminarUsuario(idUsuario);
         response.sendRedirect("index.jsp");
     }

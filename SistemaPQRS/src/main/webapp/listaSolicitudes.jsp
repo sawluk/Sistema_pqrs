@@ -33,6 +33,7 @@
                             <th>Mensaje</th>
                             <th>Archivo</th>
                             <th>Fecha y hora</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -52,7 +53,6 @@
                                         + "FROM Solicitud s "
                                         + "INNER JOIN usuario u ON s.IdUsuario = u.Idusuario "
                                         + "INNER JOIN tipoSolicitud ts ON s.IdTipoSolicitud = ts.IdTipoSolicitud "
-                                        + "WHERE s.Estado NOT IN ('Revisado') "
                                         + "ORDER BY s.IdSolicitud ASC";
 
                                 pstmt = conn.prepareStatement(sql);
@@ -67,7 +67,7 @@
                                     String mensaje = rs.getString("Mensaje");
                                     String archivo = rs.getString("ruta_archivo");                                
                                     String fecha = rs.getString("Fecha");
-                                    
+                                    String estado = rs.getString("Estado");
                                     String correoUsuario = rs.getString("CorreoUsuario");
                         %>
 
@@ -92,6 +92,7 @@
                                 <% }%>
                             </td>
                             <td><%= fecha%></td>
+                            <td><%= estado %></td>
                             <td>
                                 <!-- Botones de responder -->
                                 <div class="btn-group" role="group" aria-label="Acciones">

@@ -13,26 +13,21 @@
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
 <%
-    }
+    } else if ("edited".equals(success)) {
 %>
-<%
-    String successE = request.getParameter("success");
-    if ("true".equals(successE)) {
-%>
-<div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+<div id="editAlert" class="alert alert-success alert-dismissible fade show" role="alert">
     Usuario editado
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <script>
     // Ocultar el mensaje de éxito después de 5 segundos
     setTimeout(function() {
-        document.getElementById('successAlert').style.display = 'none';
+        document.getElementById('editAlert').style.display = 'none';
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
 <%
     }
 %>
-
 
 <%
     String error = request.getParameter("error");

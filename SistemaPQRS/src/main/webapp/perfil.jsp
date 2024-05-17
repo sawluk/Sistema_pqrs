@@ -18,6 +18,7 @@
     <div class="container" data-aos="fade-up">
         <div class="row">
             <div class="col-md-6 offset-md-3">
+                <%@include file= "templates/alerts.jsp" %>
                 <h2>Formulario para editar tu perfil</h2>
                 <div class="card bg-dark text-white" style="background-color: #0C0E67;">
                     

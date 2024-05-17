@@ -140,7 +140,15 @@ public class SistemaPQRS {
 
         return datosUsuario;
     }
-
+    
+    /**
+     * Metodo para editar un usuario
+     * @param idusuario
+     * @param cedula
+     * @param nombre
+     * @param correo
+     * @param contrasena 
+     */
     public void editarUsuario(int idusuario, String cedula, String nombre, String correo, String contrasena) {
         // Establecer la conexión a la base de datos
     SistemaPQRS conectar = new SistemaPQRS();
@@ -189,7 +197,10 @@ public class SistemaPQRS {
         }
     }
     }
-    
+    /**
+     * Metodo para eliminar un usuario
+     * @param idUsuario 
+     */
     public void eliminarUsuario(int idUsuario) {
         Connection conn = establecerConexion();
         CallableStatement cs = null;

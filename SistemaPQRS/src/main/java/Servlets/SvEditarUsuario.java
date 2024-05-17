@@ -46,6 +46,7 @@ public class SvEditarUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //recibimos los datos del formulario
         int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
         String cedula = request.getParameter("cedula");
         String nombre = request.getParameter("nombre");
@@ -62,7 +63,7 @@ public class SvEditarUsuario extends HttpServlet {
         // Get the current session
         HttpSession session = request.getSession();
 
-        // Update the session attributes with the updated user information
+        // actualizamos los datos de la sesion
         session.setAttribute("idUsuario", idUsuario);
         session.setAttribute("cedula", cedula);
         session.setAttribute("nombre", nombre);
@@ -70,7 +71,7 @@ public class SvEditarUsuario extends HttpServlet {
         session.setAttribute("contrasena", contrasena);
 
         // Redirect the user back to the home page or another page of your choice
-        response.sendRedirect("perfil.jsp");
+        response.sendRedirect("perfil.jsp?success=edited");
     }
 
     /**

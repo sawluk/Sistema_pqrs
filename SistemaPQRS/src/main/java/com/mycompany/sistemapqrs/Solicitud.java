@@ -27,6 +27,15 @@ import javax.servlet.http.Part;
  * @author Acer
  */
 public class Solicitud {
+    /**
+     * Metodo para crear una nueva solicitud PQRS
+     * @param p_IdUsuario
+     * @param p_IdTipoSolicitud
+     * @param p_Titulo
+     * @param p_Mensaje
+     * @param pdf
+     * @param p_FechaSolicitud 
+     */
 
     public static void crearSolicitud(int p_IdUsuario, int p_IdTipoSolicitud, String p_Titulo, String p_Mensaje, String pdf, LocalDateTime p_FechaSolicitud) {
         SistemaPQRS conectar = new SistemaPQRS();
@@ -69,8 +78,17 @@ public class Solicitud {
             }
         }
     }
+    /**
+     * Metodo para editar una solicitud PQRS
+     * @param p_IdSolicitud
+     * @param p_Titulo
+     * @param p_Mensaje
+     * @param p_RutaArchivo
+     * @param p_Estado
+     * @param p_Respuesta
+     * @param p_TipoSolicitud 
+     */
 
-    /// Método para editar una solicitud
     public static void editarSolicitud(int p_IdSolicitud, String p_Titulo, String p_Mensaje, String p_RutaArchivo, String p_Estado, String p_Respuesta, int p_TipoSolicitud) {
         // Establecer la conexión a la base de datos
         SistemaPQRS conectar = new SistemaPQRS();
@@ -123,7 +141,7 @@ public class Solicitud {
     }
 
     /**
-     * Metodo para eliminar una solicitud de la base de datos
+     * Metodo para eliminar una solicitud PQRS
      *
      * @param p_IdSolicitud
      */
@@ -171,6 +189,11 @@ public class Solicitud {
             }
         }
     }
+    /**
+     * Metodo para actualizar una solicitud
+     * @param idSolicitud
+     * @param respuesta 
+     */
 
     public static void actualizarSolicitud(int idSolicitud, String respuesta) {
         // Configura la conexión con la base de datos
@@ -207,8 +230,7 @@ public class Solicitud {
     }
 
     /**
-     * Metodo que envia la respuesta del administrador al usuario
-     *
+     * Metodo que envia la respuesta del administrador a la solicitud PQRS de un usuario
      * @param p_IdSolicitud
      * @param p_Respuesta
      */
@@ -255,12 +277,19 @@ public class Solicitud {
             }
         }
     }
+    
+    /**
+     * Metodo para enviar respuesta por correo a la solicitud PQRS del usuario
+     * @param para
+     * @param asunto
+     * @param texto 
+     */
 
     public static void enviarCorreo(String para, String asunto, String texto) {
-        // Propiedades del servidor de correo
+        // Propiedades del servidor de correo Gmail
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto por tu servidor SMTP
-        props.put("mail.smtp.port", "587"); // Cambia esto si es necesario
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
 
