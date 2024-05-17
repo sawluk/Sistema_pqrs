@@ -1,8 +1,12 @@
 com\mycompany\SistemaPQRS\resources\JavaEE8Resource.class
 com\mycompany\SistemaPQRS\Solicitud.class
-com\mycompany\SistemaPQRS\JAXRSConfiguration.class
-Servlets\SvEditarSolicitud.class
+com\mycompany\SistemaPQRS\Solicitud$1.class
 com\mycompany\SistemaPQRS\SistemaPQRS.class
+Servlets\SvRespuesta.class
 Servlets\SvRegistrar.class
 Servlets\SvSolicitud.class
 Servlets\SvLogin.class
+com\mycompany\SistemaPQRS\JAXRSConfiguration.class
+Servlets\SvEditarSolicitud.class
+Servlets\SvRespuesta$1.class
+Servlets\SvEditarUsuario.class

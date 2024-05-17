@@ -12,11 +12,37 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
 /**
  *
  * @author Acer
  */
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @WebServlet(name = "SvRespuesta", urlPatterns = {"/SvRespuesta"})
 public class SvRespuesta extends HttpServlet {
 
@@ -54,30 +80,28 @@ public class SvRespuesta extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // Obtener los parámetros enviados desde el formulario
-int idsolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
-String respuesta = request.getParameter("respuesta");
-String correoa = request.getParameter("correoAdmin");
-String correou = request.getParameter("correoUsuario");
-String enviarPorCorreo = request.getParameter("enviarPorCorreo");
+        // Obtener los parámetros enviados desde el formulario
+        int idsolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
+        String respuesta = request.getParameter("respuesta");
+        String correoa = request.getParameter("correoAdmin");
+        String correou = request.getParameter("correoUsuario");
+        String enviarPorCorreo = request.getParameter("enviarPorCorreo");
 
+        // Llamada al método para procesar la respuesta en la base de datos
+        Solicitud.respuesta(idsolicitud, respuesta);
 
-// Llamada al método para procesar la respuesta en la base de datos
-Solicitud.respuesta(idsolicitud, respuesta);
+        // Si el usuario eligió enviar la respuesta por correo electrónico
+        if (enviarPorCorreo.equals("si")) {
+            // Construir el mensaje de correo electrónico
+            String asunto = "Respuesta a su solicitud PQRS";
+            String mensaje = "Estimado usuario,\n\n" + respuesta + "\n\nAtentamente,\nEquipo de Soporte, \natt: Bolaños-Portilla Asociados";
 
-// Redireccionar a la página de lista de solicitudes
-response.sendRedirect("listaSolicitudes.jsp");
+            // Enviar el correo electrónico
+            Solicitud.enviarCorreo(correou, asunto, mensaje);
+        }
 
+        // Redireccionar a la página de lista de solicitudes
+        response.sendRedirect("listaSolicitudes.jsp");
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

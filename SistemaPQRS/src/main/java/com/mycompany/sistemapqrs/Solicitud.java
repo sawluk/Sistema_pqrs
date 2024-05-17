@@ -12,6 +12,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Part;
 
 /**
@@ -113,10 +121,11 @@ public class Solicitud {
             }
         }
     }
-    
+
     /**
      * Metodo para eliminar una solicitud de la base de datos
-     * @param p_IdSolicitud 
+     *
+     * @param p_IdSolicitud
      */
     public static void eliminarSolicitud(int p_IdSolicitud) {
         // Establecer la conexión a la base de datos
@@ -196,10 +205,12 @@ public class Solicitud {
             }
         }
     }
+
     /**
      * Metodo que envia la respuesta del administrador al usuario
+     *
      * @param p_IdSolicitud
-     * @param p_Respuesta 
+     * @param p_Respuesta
      */
     public static void respuesta(int p_IdSolicitud, String p_Respuesta) {
         SistemaPQRS conectar = new SistemaPQRS();
@@ -242,6 +253,37 @@ public class Solicitud {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static void enviarCorreo(String para, String asunto, String texto) {
+        // Propiedades del servidor de correo
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com"); // Cambia esto por tu servidor SMTP
+        props.put("mail.smtp.port", "587"); // Cambia esto si es necesario
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Autenticación del correo
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("cecilceil110@gmail.com", "kmdt zxvv qvsb jiyk"); // Cambia esto por tu correo y contraseña
+            }
+        });
+
+        // Composición del correo
+        Message message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress("cecilceil110@gmail.com")); // Cambia esto por tu correo
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
+            message.setSubject(asunto);
+            message.setText(texto);
+
+            // Envío del correo
+            Transport.send(message);
+        } catch (MessagingException e) {
+            // Manejar cualquier excepción de envío de correo
+            e.printStackTrace();
         }
     }
 }
