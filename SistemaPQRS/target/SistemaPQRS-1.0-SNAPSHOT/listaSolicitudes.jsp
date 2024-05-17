@@ -140,8 +140,6 @@
                 </div>
                 <div class="modal-body">
                     <form action="SvRespuesta" method="POST" id="respuestaForm">
-                        <!-- Campo oculto para el correo electrónico del administrador -->
-                        <input type="hidden" id="correoAdmin" name="correoAdmin" value="<%= session.getAttribute("correo") %>">
                         <!-- Campo oculto para el correo electrónico del usuario -->
                         <input type="hidden" id="correoUsuarioInput" name="correoUsuario">
                         <div class="mb-3">

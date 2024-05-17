@@ -8,5 +8,4 @@ Servlets\SvSolicitud.class
 Servlets\SvLogin.class
 com\mycompany\SistemaPQRS\JAXRSConfiguration.class
 Servlets\SvEditarSolicitud.class
-Servlets\SvRespuesta$1.class
 Servlets\SvEditarUsuario.class

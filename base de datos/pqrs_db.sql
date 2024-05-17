@@ -161,7 +161,7 @@ DELIMITER ;
 
 INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena, Rol) 
 VALUES 
-('1', 'Alejandro', 'cecilceil110@gmail.com', '1', 'Admin'),
+('12345', 'Alejandro', 'cecilceil110@gmail.com', '12345', 'Admin'),
 ('123', 'David', 'davidnoguera0912@gmail.com', '123', 'Usuario'),
 ('123456', 'Jorge', 'JorgeO@gmail.com', 'jorge456', 'Usuario');
 
