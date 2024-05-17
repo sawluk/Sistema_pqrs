@@ -26,6 +26,19 @@
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
 <%
+    } else if ("deleted".equals(success)) {
+%>
+<div id="deleteAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+    Usuario eliminado
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<script>
+    // Ocultar el mensaje de éxito después de 5 segundos
+    setTimeout(function() {
+        document.getElementById('deleteAlert').style.display = 'none';
+    }, 5000); // 5000 milisegundos = 5 segundos
+</script>
+<%
     }
 %>
 
@@ -34,7 +47,7 @@
     if ("true".equals(error)) {
 %>
 <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
-    Hubo un error al crear el perfil. La cedula o el correo ya están registrados.
+    Hubo un error al crear el perfil. La cédula o el correo ya están registrados.
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <script>
@@ -44,9 +57,21 @@
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
 <%
+    } else if ("duplicate".equals(error)) {
+%>
+<div id="duplicateAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+    La cédula o el correo electrónico ya están registrados.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<script>
+    // Ocultar el mensaje de error después de 5 segundos
+    setTimeout(function() {
+        document.getElementById('duplicateAlert').style.display = 'none';
+    }, 5000); // 5000 milisegundos = 5 segundos
+</script>
+<%
     }
 %>
-
 
 <%
     String errorP = request.getParameter("errorP");

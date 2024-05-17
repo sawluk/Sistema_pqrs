@@ -29,7 +29,8 @@ public class SvRegistrar extends HttpServlet {
         System.out.println(idUsuario);
         //llamar al metodo para eliminar el usuario de la base de datos
         conectar.eliminarUsuario(idUsuario);
-        response.sendRedirect("index.jsp");
+        request.getSession().invalidate();
+        response.sendRedirect("index.jsp?success=deleted");
     }
 
     /**
@@ -59,7 +60,7 @@ public class SvRegistrar extends HttpServlet {
 } catch (Exception e) { // Manejar cualquier excepción
     e.printStackTrace(); // Esto imprimirá la traza de la excepción en la consola del servidor
     // Puedes manejar el error de otra manera, como mostrar un mensaje de error en la página
-    response.getWriter().println("Error al agregar el usuario. Por favor, inténtelo de nuevo."); // Esto mostrará un mensaje de error en la página
+    response.getWriter().println("Error al agregar el usuario. Por favor, inténtelo de nuevo."); 
 }
 
         
