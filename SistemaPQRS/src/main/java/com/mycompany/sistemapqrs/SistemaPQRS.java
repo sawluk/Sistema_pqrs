@@ -25,7 +25,7 @@ public class SistemaPQRS {
     public Connection establecerConexion() {
         String url = "jdbc:mysql://localhost:3306/sistema_pqrs?serverTimeZone=utc";
         String user = "root"; // Nombre de usuario correcto
-        String password = "admin"; // Contraseña de tu base de datos, si la tienes
+        String password = "ingsistemas"; // Contraseña de tu base de datos, si la tienes
         Connection conn = null;
 
         try {

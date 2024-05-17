@@ -83,7 +83,6 @@ public class SvRespuesta extends HttpServlet {
         // Obtener los parámetros enviados desde el formulario
         int idsolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
         String respuesta = request.getParameter("respuesta");
-        String correoa = request.getParameter("correoAdmin");
         String correou = request.getParameter("correoUsuario");
         String enviarPorCorreo = request.getParameter("enviarPorCorreo");
 
