@@ -44,24 +44,33 @@ public class SvRegistrar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            try {
-    // Recibir los parámetros del formulario
-    String cedula = request.getParameter("cedula");
-    String nombre = request.getParameter("nombre");
-    String correo = request.getParameter("correo");
-    String contrasena = request.getParameter("contrasena");
-    
-    // llamamos al metodo para registrar al usuario en la base de datos
-    conectar.registrarUsuario(cedula, nombre, correo, contrasena);
-    
-    // Redirigir a una página de éxito o mostrar un mensaje de éxito
-    response.sendRedirect("index.jsp?success=true");
-    
-} catch (Exception e) { // Manejar cualquier excepción
-    e.printStackTrace(); // Esto imprimirá la traza de la excepción en la consola del servidor
-    // Puedes manejar el error de otra manera, como mostrar un mensaje de error en la página
-    response.getWriter().println("Error al agregar el usuario. Por favor, inténtelo de nuevo."); 
-}
+             try {
+        // Recibir los parámetros del formulario
+        String cedula = request.getParameter("cedula");
+        String nombre = request.getParameter("nombre");
+        String correo = request.getParameter("correo");
+        String contrasena = request.getParameter("contrasena");
+
+        // Verificar si la cédula ya está registrada
+        boolean cedulaDuplicada = conectar.cedulaRegistrada(cedula);
+
+        if (cedulaDuplicada) {
+            // Redirigir a la página de inicio con un parámetro de error
+            response.sendRedirect("index.jsp?error=true");
+            return;
+        }
+
+        // Llamamos al método para registrar al usuario en la base de datos
+        conectar.registrarUsuario(cedula, nombre, correo, contrasena);
+
+        // Redirigir a la página de inicio con un parámetro de éxito
+        response.sendRedirect("index.jsp?success=true");
+    } catch (Exception e) { // Manejar cualquier excepción
+        e.printStackTrace(); // Esto imprimirá la traza de la excepción en la consola del servidor
+        // Puedes manejar el error de otra manera, como mostrar un mensaje de error en la página
+        response.getWriter().println("Error al agregar el usuario. Por favor, inténtelo de nuevo."); 
+        response.sendRedirect("index.jsp?success=false");
+    }
 
         
 

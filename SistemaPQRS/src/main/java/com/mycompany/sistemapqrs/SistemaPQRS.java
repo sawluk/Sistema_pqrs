@@ -39,6 +39,46 @@ public class SistemaPQRS {
         }
         return conn;
     }
+    
+    
+    public boolean cedulaRegistrada(String cedula) {
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    conn = establecerConexion();
+    try {
+        if (conn != null) {
+            String sqlConsulta = "SELECT COUNT(*) AS cantidad FROM usuario WHERE Cedula = ?";
+            PreparedStatement stmtConsulta = conn.prepareStatement(sqlConsulta);
+            stmtConsulta.setString(1, cedula);
+            rs = stmtConsulta.executeQuery();
+            if (rs.next()) {
+                int cantidad = rs.getInt("cantidad");
+                return cantidad > 0; // Devuelve true si la cantidad es mayor que 0, lo que indica que la cédula está duplicada
+            }
+        } else {
+            System.err.println("No se pudo establecer la conexión con la base de datos.");
+        }
+    } catch (SQLException e) {
+        System.err.println("Error al consultar la base de datos: " + e.getMessage());
+    } finally {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al cerrar la conexión: " + e.getMessage());
+        }
+    }
+    return false; // Si ocurre algún error o no se encuentra la cédula, se devuelve false
+}
+
 
     /**
      * Metodo que registra al usuario en el sistema
@@ -49,56 +89,46 @@ public class SistemaPQRS {
      * @param contrasena
      */
     public void registrarUsuario(String cedula, String nombre, String correo, String contrasena) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        conn = establecerConexion();
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    conn = establecerConexion();
+    try {
+        if (conn != null) {
+            String sql = "INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena) VALUES (?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cedula);
+            stmt.setString(2, nombre);
+            stmt.setString(3, correo);
+            stmt.setString(4, contrasena);
+            stmt.executeUpdate();
+            System.out.println("Usuario registrado exitosamente.");
+        } else {
+            System.err.println("No se pudo establecer la conexión con la base de datos.");
+        }
+    } catch (SQLException e) {
+        System.err.println("Error al registrar usuario: " + e.getMessage());
+    } finally {
         try {
-            if (conn != null) {
-                String sqlConsulta = "SELECT COUNT(*) AS cantidad FROM usuario WHERE Cedula = ?";
-                PreparedStatement stmtConsulta = conn.prepareStatement(sqlConsulta);
-                stmtConsulta.setString(1, cedula);
-                rs = stmtConsulta.executeQuery();
-                if (rs.next()) {
-                    int cantidad = rs.getInt("cantidad");
-                    if (cantidad > 0) {
-                        System.err.println("La cédula ya está registrada en el sistema.");
-                        return;
-                    }
-                }
-                String sql = "INSERT INTO usuario (Cedula, Nombre_usuario, Correo, Contrasena) VALUES (?, ?, ?, ?)";
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, cedula);
-                stmt.setString(2, nombre);
-                stmt.setString(3, correo);
-                stmt.setString(4, contrasena);
-                stmt.executeUpdate();
-                System.out.println("Usuario registrado exitosamente.");
-            } else {
-                System.err.println("No se pudo establecer la conexión con la base de datos.");
+            if (rs != null) {
+                rs.close();
             }
         } catch (SQLException e) {
-            System.err.println("Error al registrar usuario: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar el ResultSet: " + e.getMessage());
+            System.err.println("Error al cerrar el ResultSet: " + e.getMessage());
+        }
+        try {
+            if (stmt != null) {
+                stmt.close();
             }
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            if (conn != null) {
+                conn.close();
             }
+        } catch (SQLException e) {
+            System.err.println("Error al cerrar la conexión: " + e.getMessage());
         }
     }
+}
+
 
     /**
      * Metodo que valida al usuario para ingresar al sistema
