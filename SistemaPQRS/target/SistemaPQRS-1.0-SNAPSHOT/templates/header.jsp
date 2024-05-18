@@ -60,7 +60,7 @@
                             <a class="nav-link" href="perfil.jsp">Mi perfil <span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item ml-auto"> <!-- Agrega la clase "ml-auto" para que este elemento se alinee a la derecha -->
-                            <a class="nav-link" href="index.jsp">Cerrar sesión <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="SvLogin">Cerrar sesión <span class="sr-only">(current)</span></a>
                         </li>
 
                     </ul>
