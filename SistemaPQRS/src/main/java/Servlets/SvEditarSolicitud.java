@@ -7,8 +7,6 @@
  */
 package Servlets;
 
-
-
 import com.mycompany.SistemaPQRS.Solicitud;
 import java.io.File;
 import java.io.IOException;
@@ -16,16 +14,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-
 import javax.servlet.annotation.WebServlet;
-
 import javax.servlet.http.HttpServlet;
-
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
@@ -49,15 +42,10 @@ public class SvEditarSolicitud extends HttpServlet {
             throws ServletException, IOException {
 
         int idSolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
-
         String titulo = request.getParameter("titulo");
-
         String mensaje = request.getParameter("mensaje");
-
         String estado = request.getParameter("estado");
-
         String respuesta = request.getParameter("respuesta");
-
         int tipoSolicitud = Integer.parseInt(request.getParameter("tipoSolicitud"));
 
         // Verificar si se ha adjuntado un nuevo archivo
@@ -85,7 +73,6 @@ public class SvEditarSolicitud extends HttpServlet {
             rutaArchivo = request.getParameter("rutaArchivoAnterior");
         }
 
-       
         Solicitud.editarSolicitud(idSolicitud, titulo, mensaje, rutaArchivo, estado, respuesta, tipoSolicitud);
 
         response.sendRedirect("misolicitud.jsp"); // Redirect to the index page after editing the solicitud

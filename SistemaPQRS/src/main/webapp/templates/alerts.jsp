@@ -8,12 +8,12 @@
 </div>
 <script>
     // Ocultar el mensaje de éxito después de 5 segundos
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('successAlert').style.display = 'none';
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
 <%
-    } else if ("edited".equals(success)) {
+} else if ("edited".equals(success)) {
 %>
 <div id="editAlert" class="alert alert-success alert-dismissible fade show" role="alert">
     Usuario editado
@@ -21,12 +21,12 @@
 </div>
 <script>
     // Ocultar el mensaje de éxito después de 5 segundos
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('editAlert').style.display = 'none';
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
 <%
-    } else if ("deleted".equals(success)) {
+} else if ("deleted".equals(success)) {
 %>
 <div id="deleteAlert" class="alert alert-success alert-dismissible fade show" role="alert">
     Usuario eliminado
@@ -34,7 +34,7 @@
 </div>
 <script>
     // Ocultar el mensaje de éxito después de 5 segundos
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('deleteAlert').style.display = 'none';
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
@@ -52,12 +52,12 @@
 </div>
 <script>
     // Ocultar el mensaje de error después de 5 segundos
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('errorAlert').style.display = 'none';
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
 <%
-    } else if ("duplicate".equals(error)) {
+} else if ("duplicate".equals(error)) {
 %>
 <div id="duplicateAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
     La cédula o el correo electrónico ya están registrados.
@@ -65,7 +65,7 @@
 </div>
 <script>
     // Ocultar el mensaje de error después de 5 segundos
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('duplicateAlert').style.display = 'none';
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>
@@ -83,7 +83,7 @@
 </div>
 <script>
     // Ocultar el mensaje de error de contraseña después de 5 segundos
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('errorPAlert').style.display = 'none';
     }, 5000); // 5000 milisegundos = 5 segundos
 </script>

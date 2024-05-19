@@ -65,7 +65,7 @@
                                     String tipoSolicitud = rs.getString("TipoSolicitud");
                                     String titulo = rs.getString("Titulo");
                                     String mensaje = rs.getString("Mensaje");
-                                    String archivo = rs.getString("ruta_archivo");                                
+                                    String archivo = rs.getString("ruta_archivo");
                                     String fecha = rs.getString("Fecha");
                                     String estado = rs.getString("Estado");
                                     String correoUsuario = rs.getString("CorreoUsuario");
@@ -92,7 +92,7 @@
                                 <% }%>
                             </td>
                             <td><%= fecha%></td>
-                            <td><%= estado %></td>
+                            <td><%= estado%></td>
                             <td>
                                 <!-- Botones de responder -->
                                 <div class="btn-group" role="group" aria-label="Acciones">

@@ -4,14 +4,10 @@
  */
 package com.mycompany.SistemaPQRS;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,23 +16,24 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.Part;
 
 /**
+ * Samuel Bolaños y Alejandro Portilla
  *
  * @author Acer
  */
 public class Solicitud {
+
     /**
      * Metodo para crear una nueva solicitud PQRS
+     *
      * @param p_IdUsuario
      * @param p_IdTipoSolicitud
      * @param p_Titulo
      * @param p_Mensaje
      * @param pdf
-     * @param p_FechaSolicitud 
+     * @param p_FechaSolicitud
      */
-
     public static void crearSolicitud(int p_IdUsuario, int p_IdTipoSolicitud, String p_Titulo, String p_Mensaje, String pdf, LocalDateTime p_FechaSolicitud) {
         SistemaPQRS conectar = new SistemaPQRS();
         Connection conn = null;
@@ -44,10 +41,8 @@ public class Solicitud {
 
         try {
             // Obtener conexión a la base de datos
-
             conn = conectar.establecerConexion();
-
-            // Preparar la consulta SQL
+            // Preparar la consulta SQL para añadir una solicitud
             String sql = "INSERT INTO Solicitud (IdUsuario, IdTipoSolicitud, Titulo, Mensaje, ruta_archivo) "
                     + "VALUES (?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
@@ -78,17 +73,18 @@ public class Solicitud {
             }
         }
     }
+
     /**
      * Metodo para editar una solicitud PQRS
+     *
      * @param p_IdSolicitud
      * @param p_Titulo
      * @param p_Mensaje
      * @param p_RutaArchivo
      * @param p_Estado
      * @param p_Respuesta
-     * @param p_TipoSolicitud 
+     * @param p_TipoSolicitud
      */
-
     public static void editarSolicitud(int p_IdSolicitud, String p_Titulo, String p_Mensaje, String p_RutaArchivo, String p_Estado, String p_Respuesta, int p_TipoSolicitud) {
         // Establecer la conexión a la base de datos
         SistemaPQRS conectar = new SistemaPQRS();
@@ -141,7 +137,7 @@ public class Solicitud {
     }
 
     /**
-     * Metodo para eliminar una solicitud PQRS
+     * Metodo para eliminar una solicitud PQRS de la base de datos
      *
      * @param p_IdSolicitud
      */
@@ -189,12 +185,13 @@ public class Solicitud {
             }
         }
     }
-    /**
-     * Metodo para actualizar una solicitud
-     * @param idSolicitud
-     * @param respuesta 
-     */
 
+    /**
+     * Metodo para actualizar una solicitud en la base de datos
+     *
+     * @param idSolicitud
+     * @param respuesta
+     */
     public static void actualizarSolicitud(int idSolicitud, String respuesta) {
         // Configura la conexión con la base de datos
         SistemaPQRS conectar = new SistemaPQRS();
@@ -230,7 +227,9 @@ public class Solicitud {
     }
 
     /**
-     * Metodo que envia la respuesta del administrador a la solicitud PQRS de un usuario
+     * Metodo que envia la respuesta del administrador a la solicitud PQRS del
+     * usuario
+     *
      * @param p_IdSolicitud
      * @param p_Respuesta
      */
@@ -277,14 +276,14 @@ public class Solicitud {
             }
         }
     }
-    
+
     /**
      * Metodo para enviar respuesta por correo a la solicitud PQRS del usuario
+     *
      * @param para
      * @param asunto
-     * @param texto 
+     * @param texto
      */
-
     public static void enviarCorreo(String para, String asunto, String texto) {
         // Propiedades del servidor de correo Gmail
         Properties props = new Properties();

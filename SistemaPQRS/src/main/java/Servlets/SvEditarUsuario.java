@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 public class SvEditarUsuario extends HttpServlet {
 
     SistemaPQRS conectar = new SistemaPQRS();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -52,25 +53,23 @@ public class SvEditarUsuario extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String contrasena = request.getParameter("contrasena");
         String correo = request.getParameter("correo");
-        
+
         try {
+            //llamamos al metodo para editar el usuario
             conectar.editarUsuario(idUsuario, cedula, nombre, correo, contrasena);
         } catch (Exception e) {
-             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-             rd.forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
             request.setAttribute("error", "Error al actualizar el usuario: " + e.getMessage());
-        }    
-        // Get the current session
+        }
+        // Actualizamos los datos de la sesion
         HttpSession session = request.getSession();
-
-        // actualizamos los datos de la sesion
         session.setAttribute("idUsuario", idUsuario);
         session.setAttribute("cedula", cedula);
         session.setAttribute("nombre", nombre);
         session.setAttribute("correo", correo);
         session.setAttribute("contrasena", contrasena);
 
-        // Redirect the user back to the home page or another page of your choice
         response.sendRedirect("index.jsp?success=edited");
     }
 

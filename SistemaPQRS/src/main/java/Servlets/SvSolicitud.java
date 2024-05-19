@@ -55,10 +55,8 @@ public class SvSolicitud extends HttpServlet {
         LocalDateTime fechaSolicitud = LocalDateTime.now();
 
         Part filePart = request.getPart("archivoAdjunto");
-
         // Obtener el nombre del archivo
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-
         // Guardar el archivo en la carpeta "archivos"
         String uploadPath = getServletContext().getRealPath("") + File.separator + "archivos";
         File uploadDir = new File(uploadPath);

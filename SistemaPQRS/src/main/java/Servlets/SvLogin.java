@@ -25,7 +25,7 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Obtener la sesión actual sin crear una nueva si no existe
+        HttpSession session = request.getSession(false); //Obtener la sesión actual sin crear una nueva si no existe
 
         if (session != null) {
             session.invalidate(); // Invalidar la sesión actual
@@ -46,20 +46,21 @@ public class SvLogin extends HttpServlet {
         String[] informacionUsuario = conectar.ingresar(cedula, contrasena);
 
         if (informacionUsuario != null) {
-            // Si las credenciales son válidas, almacenar el id, rol y nombre en la sesión
+            //Si las credenciales son válidas, almacenar el id, nombre, cedula, correo y contraseña del usuario en la sesion
             HttpSession session = request.getSession();
-            session.setAttribute("idUsuario", informacionUsuario[0]); // El id está en la posición 0// El rol está en la posición 1
-            session.setAttribute("nombre", informacionUsuario[2]); // El nombre está en la posición 2
+            session.setAttribute("idUsuario", informacionUsuario[0]);
+            session.setAttribute("nombre", informacionUsuario[2]);
             session.setAttribute("cedula", informacionUsuario[3]);
             session.setAttribute("correo", informacionUsuario[4]);
             session.setAttribute("contrasena", informacionUsuario[5]);
-            
 
+            //rol de usuario
             String rol = informacionUsuario[1];
             if (rol.equals("Usuario")) {
-                // Redirigir a la página de inicio
+                //Redirigir a la página de usuario
                 response.sendRedirect("usuario.jsp");
             } else {
+                //Redirigir a la página del administrador
                 response.sendRedirect("admin.jsp");
             }
 
