@@ -52,9 +52,9 @@ public class SvRegistrar extends HttpServlet {
         String contrasena = request.getParameter("contrasena");
 
         // Verificar si la cédula ya está registrada
-        boolean cedulaDuplicada = conectar.cedulaRegistrada(cedula);
+        boolean valCedula = conectar.cedulaRegistrada(cedula);
 
-        if (cedulaDuplicada) {
+        if (valCedula) {
             // Redirigir a la página de inicio con un parámetro de error
             response.sendRedirect("index.jsp?error=true");
             return;

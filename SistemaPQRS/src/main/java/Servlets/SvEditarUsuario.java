@@ -71,7 +71,7 @@ public class SvEditarUsuario extends HttpServlet {
         session.setAttribute("contrasena", contrasena);
 
         // Redirect the user back to the home page or another page of your choice
-        response.sendRedirect("perfil.jsp?success=edited");
+        response.sendRedirect("index.jsp?success=edited");
     }
 
     /**

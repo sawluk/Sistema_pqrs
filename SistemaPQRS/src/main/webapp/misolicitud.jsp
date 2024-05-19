@@ -57,7 +57,7 @@
                             <th>Tipo</th>
                             <th>Mensaje</th>
                             <th>Archivo</th>
-                            <th>Fecha de Solicitud</th>
+                            <th>Fecha y hora de Solicitud</th>
                             <th>Estado</th>
                             <th>Respuesta</th>
                             <th>Acciones</th>
